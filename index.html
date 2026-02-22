@@ -2814,10 +2814,11 @@ function buildOrgHtml(org) {
 }
 
 // ── CRM LITE ─────────────────────────────────────────────────────────────────
-var CRM_STATUSES = ['Prospect','Contacted','Meeting Set','Proposal Sent','Won','Not a Fit'];
+var CRM_STATUSES = ['Prospect','Contacted','Follow-Up','Meeting Set','Proposal Sent','Won','Not a Fit'];
 var CRM_STATUS_COLORS = {
   'Prospect':      '#8A8A8A',
   'Contacted':     '#3b82f6',
+  'Follow-Up':     '#14b8a6',
   'Meeting Set':   '#f59e0b',
   'Proposal Sent': '#a855f7',
   'Won':           '#22c55e',
@@ -3087,48 +3088,148 @@ function renderTierCards(companies, containerId) {
   };
 }
 
+function getCrmCompanies() {
+  // All companies from market tables + any custom ones saved
+  var allCos = [];
+  var seen = {};
+  ['svc','fin','hlth','ind','rtl','tch'].forEach(function(key) {
+    (MKT_TABLES[key]||[]).forEach(function(r){
+      if (!seen[r[0]]) { seen[r[0]] = true; allCos.push(r[0]); }
+    });
+  });
+  // Custom companies added by user
+  try {
+    var custom = JSON.parse(localStorage.getItem('crm_custom_companies') || '[]');
+    custom.forEach(function(c){ if (!seen[c]) { seen[c]=true; allCos.push(c); } });
+  } catch(e){}
+  return allCos;
+}
+
+function crmAddCompany() {
+  var nameEl = document.getElementById('crm-new-name');
+  var name = nameEl ? nameEl.value.trim() : '';
+  if (!name) return;
+  try {
+    var custom = JSON.parse(localStorage.getItem('crm_custom_companies') || '[]');
+    if (custom.indexOf(name) < 0) { custom.push(name); localStorage.setItem('crm_custom_companies', JSON.stringify(custom)); }
+  } catch(e){}
+  renderCrmPipeline();
+}
+
+function crmDeleteCompany(coKey) {
+  if (!confirm('Remove "' + coKey + '" from pipeline?')) return;
+  try {
+    var custom = JSON.parse(localStorage.getItem('crm_custom_companies') || '[]');
+    custom = custom.filter(function(c){ return c !== coKey; });
+    localStorage.setItem('crm_custom_companies', JSON.stringify(custom));
+    localStorage.removeItem(crmKey(coKey));
+  } catch(e){}
+  renderCrmPipeline();
+}
+
 function renderCrmPipeline() {
   var wrap = document.getElementById('crm-pipeline-wrap');
   if (!wrap) return;
-  var allCos = [];
-  ['svc','fin','hlth','ind','rtl','tch'].forEach(function(key) {
-    (MKT_TABLES[key]||[]).forEach(function(r){ allCos.push(r[0]); });
-  });
-  var seen = {};
-  allCos = allCos.filter(function(c){ if(seen[c]) return false; seen[c]=true; return true; });
+
+  var allCos = getCrmCompanies();
   var rows = allCos.map(function(co) {
     var d = crmLoad(co);
-    return { co:co, status:d.status, lastContact:d.lastContact, pipeline:d.pipelineValue, notes:d.notes };
+    return { co:co, status:d.status||'Prospect', lastContact:d.lastContact||'', pipeline:d.pipelineValue||'', notes:d.notes||'' };
   });
+
+  // Summary stats
   var totalPipeline = 0;
   rows.forEach(function(r){
-    var v = r.pipeline.replace(/[^0-9.KkMm]/g,'');
-    if (v) { var n=parseFloat(v); if(r.pipeline.match(/[Mm]/))n*=1000000; else if(r.pipeline.match(/[Kk]/))n*=1000; if(!isNaN(n))totalPipeline+=n; }
+    var v = (r.pipeline+'').replace(/[^0-9.]/g,'');
+    if (v) { var n=parseFloat(v); if((r.pipeline+'').match(/[Mm]/))n*=1000000; else if((r.pipeline+'').match(/[Kk]/))n*=1000; if(!isNaN(n))totalPipeline+=n; }
   });
   var activeCount = rows.filter(function(r){ return r.status!=='Prospect'&&r.status!=='Not a Fit'; }).length;
-  var wonCount = rows.filter(function(r){ return r.status==='Won'; }).length;
-  var pipelineDisplay = totalPipeline>=1000000?'$'+(totalPipeline/1000000).toFixed(1)+'M':totalPipeline>=1000?'$'+(totalPipeline/1000).toFixed(0)+'K':totalPipeline>0?'$'+totalPipeline:'—';
-  var h = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem;">';
-  h += '<div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);padding:.75rem;text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#22c55e;">'+wonCount+'</div><div style="font-size:.85rem;color:#8A8A8A;text-transform:uppercase;letter-spacing:.1em;">Won</div></div>';
-  h += '<div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);padding:.75rem;text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#f59e0b;">'+activeCount+'</div><div style="font-size:.85rem;color:#8A8A8A;text-transform:uppercase;letter-spacing:.1em;">Active</div></div>';
-  h += '<div style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);padding:.75rem;text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#a855f7;">'+pipelineDisplay+'</div><div style="font-size:.85rem;color:#8A8A8A;text-transform:uppercase;letter-spacing:.1em;">Pipeline</div></div>';
+  var wonCount    = rows.filter(function(r){ return r.status==='Won'; }).length;
+  var pipeDisp    = totalPipeline>=1000000?'$'+(totalPipeline/1000000).toFixed(1)+'M':totalPipeline>=1000?'$'+(totalPipeline/1000).toFixed(0)+'K':totalPipeline>0?'$'+totalPipeline:'—';
+
+  var statusOrder = {'Won':0,'Proposal Sent':1,'Meeting Set':2,'Follow-Up':3,'Contacted':4,'Prospect':5,'Not a Fit':6};
+  rows.sort(function(a,b){ return (statusOrder[a.status]||5)-(statusOrder[b.status]||5); });
+
+  var statusOpts = CRM_STATUSES.map(function(s){ return '<option value="'+s+'">'+s+'</option>'; }).join('');
+
+  var h = '';
+
+  // ── Stats bar ──
+  h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem;">';
+  h += '<div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);padding:.6rem;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:#22c55e;">'+wonCount+'</div><div style="font-size:.75rem;color:#8A8A8A;letter-spacing:.1em;text-transform:uppercase;">Won</div></div>';
+  h += '<div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);padding:.6rem;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:#f59e0b;">'+activeCount+'</div><div style="font-size:.75rem;color:#8A8A8A;letter-spacing:.1em;text-transform:uppercase;">Active</div></div>';
+  h += '<div style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);padding:.6rem;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:#a855f7;">'+pipeDisp+'</div><div style="font-size:.75rem;color:#8A8A8A;letter-spacing:.1em;text-transform:uppercase;">Pipeline</div></div>';
+  h += '<div style="background:rgba(90,171,255,.08);border:1px solid rgba(90,171,255,.2);padding:.6rem;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:#5aabff;">'+rows.length+'</div><div style="font-size:.75rem;color:#8A8A8A;letter-spacing:.1em;text-transform:uppercase;">Total</div></div>';
   h += '</div>';
-  var order={'Won':0,'Proposal Sent':1,'Meeting Set':2,'Contacted':3,'Prospect':4,'Not a Fit':5};
-  rows.sort(function(a,b){ return (order[a.status]||4)-(order[b.status]||4); });
-  h += '<table style="width:100%;border-collapse:collapse;font-size:.88rem;">';
-  h += '<tr style="border-bottom:1px solid rgba(255,255,255,.1);"><th style="text-align:left;padding:.3rem .5rem;color:#8A8A8A;">Company</th><th style="padding:.3rem .5rem;color:#8A8A8A;">Status</th><th style="padding:.3rem .5rem;color:#8A8A8A;">Last Contact</th><th style="text-align:right;padding:.3rem .5rem;color:#8A8A8A;">Pipeline</th><th style="text-align:left;padding:.3rem .5rem;color:#8A8A8A;">Notes</th></tr>';
+
+  // ── Add Company form ──
+  h += '<div style="display:flex;gap:.5rem;margin-bottom:.75rem;align-items:center;">';
+  h += '<input id="crm-new-name" type="text" placeholder="Add company name…" style="flex:1;background:#1a2840;border:1px solid rgba(90,171,255,.25);color:#e8f0ff;padding:.4rem .7rem;font-size:.88rem;font-family:Barlow,sans-serif;" onkeydown="if(event.key===\'Enter\')crmAddCompany()"/>';
+  h += '<button onclick="crmAddCompany()" style="background:#C8102E;color:#fff;border:none;padding:.4rem 1rem;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.08em;cursor:pointer;">+ ADD</button>';
+  h += '</div>';
+
+  // ── Editable table ──
+  h += '<div style="overflow-x:auto;">';
+  h += '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">';
+  h += '<thead><tr style="border-bottom:1px solid rgba(255,255,255,.1);">';
+  h += '<th style="text-align:left;padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Company</th>';
+  h += '<th style="padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Status</th>';
+  h += '<th style="padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Last Contact</th>';
+  h += '<th style="text-align:right;padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Pipeline $</th>';
+  h += '<th style="text-align:left;padding:.35rem .5rem;color:#8A8A8A;font-weight:600;">Notes</th>';
+  h += '<th style="padding:.35rem .5rem;"></th>';
+  h += '</tr></thead><tbody>';
+
   rows.forEach(function(r,i){
-    var bg=i%2===0?'rgba(255,255,255,.02)':'transparent';
-    var sc=CRM_STATUS_COLORS[r.status]||'#8A8A8A';
-    h+='<tr style="background:'+bg+';border-bottom:1px solid rgba(255,255,255,.04);">';
-    h+='<td style="padding:.3rem .5rem;color:#fff;font-weight:600;">'+r.co+'</td>';
-    h+='<td style="padding:.3rem .5rem;"><span style="background:'+sc+';color:#fff;font-size:.82rem;font-weight:700;padding:.1rem .35rem;border-radius:2px;">'+r.status+'</span></td>';
-    h+='<td style="padding:.3rem .5rem;color:#8A8A8A;">'+(r.lastContact||'—')+'</td>';
-    h+='<td style="padding:.3rem .5rem;text-align:right;color:#22c55e;">'+(r.pipeline||'—')+'</td>';
-    h+='<td style="padding:.3rem .5rem;color:#666;font-style:italic;">'+(r.notes?r.notes.substring(0,60)+(r.notes.length>60?'…':''):'—')+'</td>';
-    h+='</tr>';
+    var bg = i%2===0 ? 'rgba(255,255,255,.02)' : 'transparent';
+    var sc = CRM_STATUS_COLORS[r.status] || '#8A8A8A';
+    var coEsc = r.co.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    var k = crmKey(r.co);
+
+    h += '<tr style="background:'+bg+';border-bottom:1px solid rgba(255,255,255,.04);">';
+
+    // Company name
+    h += '<td style="padding:.3rem .5rem;color:#fff;font-weight:600;white-space:nowrap;">'+r.co+'</td>';
+
+    // Status — live dropdown
+    h += '<td style="padding:.3rem .5rem;">';
+    h += '<select onchange="crmUpdate(\''+coEsc+'\',\'status\',this.value);renderCrmPipeline();" style="background:'+sc+';color:#fff;border:none;font-size:.8rem;font-weight:700;padding:.15rem .3rem;cursor:pointer;border-radius:2px;">';
+    CRM_STATUSES.forEach(function(s){
+      h += '<option value="'+s+'"'+(r.status===s?' selected':'')+'>'+s+'</option>';
+    });
+    h += '</select></td>';
+
+    // Last contact — editable date
+    h += '<td style="padding:.3rem .5rem;">';
+    h += '<input type="date" value="'+r.lastContact+'" onchange="crmUpdate(\''+coEsc+'\',\'lastContact\',this.value)" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.12);color:#a8bcd8;font-size:.82rem;width:110px;"/>';
+    h += '</td>';
+
+    // Pipeline value — editable
+    h += '<td style="padding:.3rem .5rem;text-align:right;">';
+    h += '<input type="text" value="'+r.pipeline+'" placeholder="$0K" onchange="crmUpdate(\''+coEsc+'\',\'pipelineValue\',this.value)" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.12);color:#22c55e;font-size:.85rem;font-weight:600;width:70px;text-align:right;"/>';
+    h += '</td>';
+
+    // Notes — editable
+    h += '<td style="padding:.3rem .5rem;">';
+    h += '<input type="text" value="'+r.notes.replace(/"/g,'&quot;')+'" placeholder="Add note…" onchange="crmUpdate(\''+coEsc+'\',\'notes\',this.value)" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.08);color:#6e8aaa;font-size:.82rem;width:100%;min-width:140px;"/>';
+    h += '</td>';
+
+    // Delete (custom companies only)
+    h += '<td style="padding:.3rem .4rem;">';
+    try {
+      var custom = JSON.parse(localStorage.getItem('crm_custom_companies') || '[]');
+      if (custom.indexOf(r.co) >= 0) {
+        h += '<button onclick="crmDeleteCompany(\''+coEsc+'\')" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444;font-size:.75rem;padding:.1rem .35rem;cursor:pointer;">✕</button>';
+      }
+    } catch(e){}
+    h += '</td>';
+
+    h += '</tr>';
   });
-  h+='</table><div style="margin-top:.5rem;font-size:.85rem;color:#555;">Data saves locally on this device. Update status by expanding any company in the vertical tabs above.</div>';
+
+  h += '</tbody></table></div>';
+  h += '<div style="margin-top:.6rem;font-size:.8rem;color:#4a6480;">Changes save automatically to this browser. Status, dates, pipeline values and notes are all editable above.</div>';
+
   wrap.innerHTML = h;
 }
 
