@@ -19,6 +19,24 @@ window.addEventListener('unhandledrejection', function(e){
   document.body.appendChild(d);
 });
 </script>
+<script>
+// ── MODAL STUBS — defined early so inline onclicks always resolve ──────────
+function openModal(id) {
+  var overlay = document.getElementById('modal-overlay');
+  var contents = document.querySelectorAll('.modal-content');
+  if (contents) contents.forEach(function(c){ c.style.display='none'; });
+  var target = document.getElementById(id);
+  if (target) target.style.display='block';
+  if (overlay) { overlay.style.display='block'; document.body.style.overflow='hidden'; }
+}
+function closeModal() {
+  var overlay = document.getElementById('modal-overlay');
+  var contents = document.querySelectorAll('.modal-content');
+  if (contents) contents.forEach(function(c){ c.style.display='none'; });
+  if (overlay) overlay.style.display='none';
+  document.body.style.overflow='';
+}
+</script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -1391,7 +1409,7 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
 
 
 <!-- ═══════════════ MODALS ═══════════════ -->
-<div id="modal-overlay" onclick="closeModal()" ontouchstart="if(event.target===this)closeModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:5000;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2rem 1rem;">
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()" ontouchstart="if(event.target===this)closeModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:5000;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2rem 1rem;">
 <div id="modal-box" onclick="event.stopPropagation()" ontouchstart="event.stopPropagation()" style="max-width:860px;width:100%;margin:0 auto;background:#162d48;border:1px solid rgba(200,16,46,0.3);position:relative;box-sizing:border-box;">
 
   <button onclick="closeModal()" style="position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;color:#f0f4ff;font-size:1.3rem;cursor:pointer;z-index:10;line-height:1;">&#10005;</button>
@@ -1898,8 +1916,10 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
         </div>
         <div style="display:flex;gap:.4rem;margin-bottom:.9rem;">
           <button onclick="mktTab('crm')" id="mtab-crm" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:none;padding:.45rem 1.4rem;cursor:pointer;">Pipeline</button>
+          <button onclick="mktTab('sales_analysis')" id="mtab-sales_analysis" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:none;padding:.45rem 1.4rem;cursor:pointer;">Sales Analysis</button>
         </div>
         <div id="crm-pipeline-wrap" style="display:none;"></div>
+        <div id="sales-analysis-wrap" style="display:none;"></div>
         <div id="mkt-table-wrap" style="overflow-x:auto;">
           <!-- rendered by JS -->
         </div>
@@ -2984,7 +3004,7 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
   <button id="bn-rick"        onclick="showPage('rick')"        style="flex:1;padding:0.85rem 4px;background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;color:#8A8A8A;cursor:pointer;">&#128100; Rick Krohn</button>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── MODAL SYSTEM ─────────────────────────────────────────
 function openModal(id) {
   var overlay = document.getElementById('modal-overlay');
@@ -3898,12 +3918,32 @@ var MKT_ORGS = {
 
 };
 
+window._ecRegistry = {};
+window._ecRid = 0;
+window.ecBtnClick = function(btn) {
+  var rid = btn.getAttribute('data-rid');
+  var d = window._ecRegistry[rid];
+  if (d) window.openEmailComposer(d.name, d.title, d.co);
+};
+
 function buildOrgHtml(org) {
-  var h = '<div style="padding:.6rem 0 .3rem;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;">Decision-Maker Org Chart</div>';
-  h += '<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;">';
+  var co = (org._coKey || '');
+  var btnStyle = 'font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;background:rgba(200,16,46,.15);color:#C8102E;border:1px solid rgba(200,16,46,.35);padding:.1rem .45rem;cursor:pointer;white-space:nowrap;flex-shrink:0;';
+  if (!window._ecRegistry) window._ecRegistry = {};
+  if (!window._ecRid) window._ecRid = 0;
+  var emailBtn = function(name, title) {
+    var rid = 'ec_' + (++window._ecRid);
+    window._ecRegistry[rid] = {name: name, title: title, co: co};
+    return '<button data-rid="' + rid + '" style="' + btnStyle + '" onclick="event.stopPropagation();window.ecBtnClick(this);">&#9993; Email</button>';};
+
+  var h = '<div style="padding:.6rem 0 .3rem;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;font-family:Barlow Condensed,sans-serif;font-weight:700;">Decision-Maker Org Chart</div>';
+  h += '<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem;">';
   h += '<div style="width:10px;height:10px;background:#C8102E;flex-shrink:0;"></div>';
-  h += '<div><span style="color:#fff;font-weight:700;font-size:.82rem;">' + org.ceo.name + '</span>';
-  h += ' <span style="color:#8A8A8A;font-size:.88rem;">&mdash; ' + org.ceo.title + '</span></div></div>';
+  h += '<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;">';
+  h += '<span style="color:#fff;font-weight:700;font-size:.82rem;">' + org.ceo.name + '</span>';
+  h += ' <span style="color:#8A8A8A;font-size:.88rem;">&mdash; ' + org.ceo.title + '</span>';
+  h += emailBtn(org.ceo.name, org.ceo.title);
+  h += '</div></div>';
   org.nodes.forEach(function(n) {
     var tc = n.target ? '#f59e0b' : '#444';
     var star = n.target ? '<span style="color:#f59e0b;font-size:.85rem;margin-left:.3rem;">&#9733;</span>' : '';
@@ -3911,11 +3951,14 @@ function buildOrgHtml(org) {
     h += '<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;margin-top:.2rem;">';
     h += '<div style="width:1px;height:.5rem;background:#333;"></div>';
     h += '<div style="width:6px;height:6px;border:1.5px solid ' + tc + ';flex-shrink:0;border-radius:1px;"></div></div>';
-    h += '<div style="line-height:1.4;">';
+    h += '<div style="line-height:1.4;flex:1;">';
+    h += '<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;">';
     h += '<span style="color:' + (n.target ? '#fff' : '#666') + ';font-size:.82rem;font-weight:' + (n.target ? '600' : '400') + ';">' + n.name + '</span>' + star;
     h += ' <span style="color:#666;font-size:.88rem;">&mdash; ' + n.title + '</span>';
-    if (n.owns) h += '<br><span style="color:#555;font-size:.85rem;">Owns: ' + n.owns + '</span>';
-    if (n.note) h += '<br><span style="color:#f59e0b;font-size:.85rem;font-style:italic;">&#9658; ' + n.note + '</span>';
+    if (n.target) h += emailBtn(n.name, n.title);
+    h += '</div>';
+    if (n.owns) h += '<div style="color:#555;font-size:.85rem;">Owns: ' + n.owns + '</div>';
+    if (n.note) h += '<div style="color:#f59e0b;font-size:.85rem;font-style:italic;">&#9658; ' + n.note + '</div>';
     h += '</div></div>';
   });
   h += '<div style="margin-top:.5rem;font-size:.85rem;color:#555;font-style:italic;">&#9733; Foxmark target &nbsp;|&nbsp; Verify names on LinkedIn before outreach</div>';
@@ -4090,9 +4133,27 @@ function renderMktTable(key) {
       t += '</table></div>';
     });
     wrap.innerHTML = t;
+
+  // Wire email buttons directly — bypasses all delegation/bubbling issues
+  (function() {
+    document.querySelectorAll('.ec-btn').forEach(function(btn) {
+      btn.removeEventListener('click', btn._ecHandler || function(){});
+      btn._ecHandler = function(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
+        window.openEmailComposer(btn.getAttribute('data-name'), btn.getAttribute('data-title'), btn.getAttribute('data-co'));
+      };
+      btn.addEventListener('click', btn._ecHandler);
+    });
+  })();
     wrap.onclick = function(e) {
       var el = e.target;
       while (el && el !== wrap) {
+        if (el.classList && el.classList.contains('ec-btn')) {
+          window.openEmailComposer(el.getAttribute('data-name'), el.getAttribute('data-title'), el.getAttribute('data-co'));
+          return;
+        }
         if (el.classList && el.classList.contains('org-toggle')) {
           toggleOrg(el.getAttribute('data-orgid')); return;
         }
@@ -4144,10 +4205,28 @@ function renderMktTable(key) {
   });
   t += '</table>';
   wrap.innerHTML = t;
+
+  // Wire email buttons directly — bypasses all delegation/bubbling issues
+  (function() {
+    document.querySelectorAll('.ec-btn').forEach(function(btn) {
+      btn.removeEventListener('click', btn._ecHandler || function(){});
+      btn._ecHandler = function(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
+        window.openEmailComposer(btn.getAttribute('data-name'), btn.getAttribute('data-title'), btn.getAttribute('data-co'));
+      };
+      btn.addEventListener('click', btn._ecHandler);
+    });
+  })();
   // Attach click delegation each time table is redrawn
   wrap.onclick = function(e) {
     var el = e.target;
     while (el && el !== wrap) {
+      if (el.classList && el.classList.contains('ec-btn')) {
+        window.openEmailComposer(el.getAttribute('data-name'), el.getAttribute('data-title'), el.getAttribute('data-co'));
+        return;
+      }
       if (el.classList && el.classList.contains('org-toggle')) {
         toggleOrg(el.getAttribute('data-orgid'));
         return;
@@ -4163,6 +4242,19 @@ function toggleOrg(id) {
   if (!row) return;
   var open = row.style.display !== 'none';
   row.style.display = open ? 'none' : 'table-row';
+  // Wire any email buttons revealed in this row
+  if (!open) {
+    row.querySelectorAll('.ec-btn').forEach(function(btn) {
+      btn.removeEventListener('click', btn._ecHandler || function(){});
+      btn._ecHandler = function(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
+        window.openEmailComposer(btn.getAttribute('data-name'), btn.getAttribute('data-title'), btn.getAttribute('data-co'));
+      };
+      btn.addEventListener('click', btn._ecHandler);
+    });
+  }
   if (arr) {
     arr.style.transform = open ? '' : 'rotate(90deg)';
     arr.style.color = open ? '#4a9eff' : '#22c55e';
@@ -4173,31 +4265,32 @@ function toggleOrg(id) {
 }
 
 function mktTab(key) {
+  var ALL_TABS = ['svc','fin','hlth','ind','rtl','tch','crm','mid','sales_analysis'];
+  // Hide all panels first
+  var tableWrap    = document.getElementById('mkt-table-wrap');
+  var pipelineWrap = document.getElementById('crm-pipeline-wrap');
+  var salesWrap    = document.getElementById('sales-analysis-wrap');
+  if (tableWrap)    tableWrap.style.display    = 'none';
+  if (pipelineWrap) pipelineWrap.style.display = 'none';
+  if (salesWrap)    salesWrap.style.display    = 'none';
+  // Highlight active tab
+  ALL_TABS.forEach(function(k) {
+    var btn = document.getElementById('mtab-' + k);
+    if (!btn) return;
+    btn.style.background = k === key ? '#C8102E' : 'rgba(255,255,255,.07)';
+    btn.style.color      = k === key ? '#fff' : '#8A8A8A';
+  });
   if (key === 'crm') {
-    // Hide the normal table wrap, show CRM pipeline
-    var wrap = document.getElementById('mkt-table-wrap');
-    if (wrap) wrap.style.display = 'none';
-    var pipeline = document.getElementById('crm-pipeline-wrap');
-    if (pipeline) { pipeline.style.display = 'block'; renderCrmPipeline(); }
-    // Update tab styles
-    ['svc','fin','hlth','ind','rtl','tch','crm','mid'].forEach(function(k) {
-      var btn = document.getElementById('mtab-' + k);
-      if (!btn) return;
-      btn.style.background = k === key ? '#C8102E' : 'rgba(255,255,255,.07)';
-      btn.style.color = k === key ? '#fff' : '#8A8A8A';
-    });
+    if (pipelineWrap) { pipelineWrap.style.display = 'block'; renderCrmPipeline(); }
     return;
   }
-  // Show normal table wrap, hide CRM pipeline
-  var wrap = document.getElementById('mkt-table-wrap');
-  if (wrap) wrap.style.display = 'block';
-  var pipeline = document.getElementById('crm-pipeline-wrap');
-  if (pipeline) pipeline.style.display = 'none';
+  if (key === 'sales_analysis') {
+    if (salesWrap) { salesWrap.style.display = 'block'; renderSalesAnalysis(); }
+    return;
+  }
+  // Sector table tabs
+  if (tableWrap) tableWrap.style.display = 'block';
   mktCurrentTab = key;
-  ['svc','fin','hlth','ind','rtl','tch','crm','mid'].forEach(function(k){
-    var btn = document.getElementById('mtab-'+k);
-    if (btn) { btn.style.background = k===key ? '#C8102E' : 'rgba(255,255,255,.07)'; btn.style.color = k===key ? '#fff' : '#8A8A8A'; }
-  });
   renderMktTable(key);
 }
 
@@ -4288,10 +4381,28 @@ function renderTierCards(companies, containerId) {
   });
   html += '</table>';
   container.innerHTML = html;
+
+  // Wire email buttons directly — bypasses all delegation/bubbling issues
+  (function() {
+    document.querySelectorAll('.ec-btn').forEach(function(btn) {
+      btn.removeEventListener('click', btn._ecHandler || function(){});
+      btn._ecHandler = function(e) {
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        e.preventDefault();
+        window.openEmailComposer(btn.getAttribute('data-name'), btn.getAttribute('data-title'), btn.getAttribute('data-co'));
+      };
+      btn.addEventListener('click', btn._ecHandler);
+    });
+  })();
   // Wire up org toggles
   container.onclick = function(e) {
     var el = e.target;
     while (el && el !== container) {
+      if (el.classList && el.classList.contains('ec-btn')) {
+        window.openEmailComposer(el.getAttribute('data-name'), el.getAttribute('data-title'), el.getAttribute('data-co'));
+        return;
+      }
       if (el.classList && el.classList.contains('org-toggle')) {
         toggleOrg(el.getAttribute('data-orgid'));
         return;
@@ -4390,6 +4501,7 @@ function renderCrmPipeline() {
   h += '<th style="padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Last Contact</th>';
   h += '<th style="text-align:right;padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Pipeline $</th>';
   h += '<th style="text-align:left;padding:.35rem .5rem;color:#8A8A8A;font-weight:600;">Notes</th>';
+  h += '<th style="padding:.35rem .5rem;color:#8A8A8A;font-weight:600;white-space:nowrap;">Outreach</th>';
   h += '<th style="padding:.35rem .5rem;"></th>';
   h += '</tr></thead><tbody>';
 
@@ -4427,6 +4539,25 @@ function renderCrmPipeline() {
     h += '<input type="text" value="'+r.notes.replace(/"/g,'&quot;')+'" placeholder="Add note…" onchange="crmUpdate(\''+coEsc+'\',\'notes\',this.value)" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.08);color:#6e8aaa;font-size:.82rem;width:100%;min-width:140px;"/>';
     h += '</td>';
 
+    // Email outreach button (pipeline tab)
+    h += '<td style="padding:.3rem .5rem;white-space:nowrap;">';
+    var _orgD = typeof MKT_ORGS !== 'undefined' && MKT_ORGS[r.co];
+    if (_orgD) {
+      var _pt = null;
+      if (_orgD.nodes) { for (var _ni=0;_ni<_orgD.nodes.length;_ni++) { if(_orgD.nodes[_ni].target){_pt=_orgD.nodes[_ni];break;} } }
+      var _bName  = _pt ? _pt.name  : _orgD.ceo.name;
+      var _bTitle = _pt ? _pt.title : _orgD.ceo.title;
+      var _bCo    = r.co;
+      // Escape single quotes for inline onclick attribute
+      var _n = (_bName  || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var _t = (_bTitle || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var _c = (_bCo    || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      h += '<button class="ec-btn" data-name="'+_n+'" data-title="'+_t+'" data-co="'+_c+'" style="font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;background:rgba(200,16,46,.15);color:#C8102E;border:1px solid rgba(200,16,46,.35);padding:.18rem .5rem;cursor:pointer;white-space:nowrap;">&#9993; Email</button>';
+    } else {
+      h += '<span style="color:#2a3a4a;font-size:.75rem;">—</span>';
+    }
+    h += '</td>';
+
     // Delete (custom companies only)
     h += '<td style="padding:.3rem .4rem;">';
     try {
@@ -4442,6 +4573,358 @@ function renderCrmPipeline() {
 
   h += '</tbody></table></div>';
   h += '<div style="margin-top:.6rem;font-size:.8rem;color:#4a6480;">Changes save automatically to this browser. Status, dates, pipeline values and notes are all editable above.</div>';
+
+  wrap.innerHTML = h;
+}
+
+
+// ── SALES ANALYSIS ──────────────────────────────────────────────────────────
+var SA_ACTIVITY_KEY  = 'sa_activity_log';
+var SA_SETTINGS_KEY  = 'sa_settings';
+
+function saLoad() {
+  try { return JSON.parse(localStorage.getItem(SA_ACTIVITY_KEY) || '[]'); } catch(e) { return []; }
+}
+function saSave(data) {
+  try { localStorage.setItem(SA_ACTIVITY_KEY, JSON.stringify(data)); } catch(e) {}
+}
+function saLoadSettings() {
+  try { return JSON.parse(localStorage.getItem(SA_SETTINGS_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saSaveSettings(d) {
+  try { localStorage.setItem(SA_SETTINGS_KEY, JSON.stringify(d)); } catch(e) {}
+}
+
+function saAddActivity(type, company, contact, notes, outcome) {
+  var log = saLoad();
+  log.unshift({
+    id: Date.now(),
+    date: new Date().toISOString().split('T')[0],
+    type: type,          // 'call' | 'email' | 'meeting' | 'demo'
+    company: company,
+    contact: contact,
+    notes: notes,
+    outcome: outcome     // 'connected' | 'voicemail' | 'no_answer' | 'replied' | 'no_reply' | 'booked' | 'declined'
+  });
+  saSave(log);
+  renderSalesAnalysis();
+}
+
+function saDeleteActivity(id) {
+  var log = saLoad().filter(function(a){ return a.id !== id; });
+  saSave(log);
+  renderSalesAnalysis();
+}
+
+function saGetWeekKey(dateStr) {
+  var d = new Date(dateStr + 'T12:00:00');
+  var day = d.getDay();
+  var diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  var mon = new Date(d.setDate(diff));
+  return mon.toISOString().split('T')[0];
+}
+
+function renderSalesAnalysis() {
+  var wrap = document.getElementById('sales-analysis-wrap');
+  if (!wrap) return;
+
+  var log = saLoad();
+  var settings = saLoadSettings();
+  var goalCalls   = parseInt(settings.goalCalls   || 20);
+  var goalEmails  = parseInt(settings.goalEmails  || 40);
+  var goalMtgs    = parseInt(settings.goalMtgs    || 5);
+
+  var now = new Date();
+  var todayStr = now.toISOString().split('T')[0];
+  var weekStart = saGetWeekKey(todayStr);
+
+  var thisWeek = log.filter(function(a){ return saGetWeekKey(a.date) === weekStart; });
+  var thisMonth = log.filter(function(a){ return a.date.slice(0,7) === todayStr.slice(0,7); });
+
+  function count(arr, type) { return arr.filter(function(a){ return !type || a.type === type; }).length; }
+  function countOutcome(arr, oc) { return arr.filter(function(a){ return a.outcome === oc; }).length; }
+
+  var wCalls  = count(thisWeek, 'call');
+  var wEmails = count(thisWeek, 'email');
+  var wMtgs   = count(thisWeek, 'meeting') + count(thisWeek, 'demo');
+  var mCalls  = count(thisMonth, 'call');
+  var mEmails = count(thisMonth, 'email');
+  var mMtgs   = count(thisMonth, 'meeting') + count(thisMonth, 'demo');
+
+  var connected    = countOutcome(thisMonth, 'connected');
+  var voicemail    = countOutcome(thisMonth, 'voicemail');
+  var replied      = countOutcome(thisMonth, 'replied');
+  var booked       = countOutcome(thisMonth, 'booked');
+  var totalOutreach= mCalls + mEmails;
+  var connectRate  = totalOutreach > 0 ? Math.round((connected + replied) / totalOutreach * 100) : 0;
+  var bookRate     = (connected + replied) > 0 ? Math.round(booked / (connected + replied) * 100) : 0;
+
+  // ── Company-level rollup for management view ──
+  var byCompany = {};
+  log.forEach(function(a) {
+    if (!a.company) return;
+    if (!byCompany[a.company]) byCompany[a.company] = { calls:0, emails:0, mtgs:0, lastDate:'', lastOutcome:'', contacts:[] };
+    var co = byCompany[a.company];
+    if (a.type === 'call')  co.calls++;
+    if (a.type === 'email') co.emails++;
+    if (a.type === 'meeting' || a.type === 'demo') co.mtgs++;
+    if (a.date > co.lastDate) { co.lastDate = a.date; co.lastOutcome = a.outcome; }
+    if (a.contact && co.contacts.indexOf(a.contact) < 0) co.contacts.push(a.contact);
+  });
+  var coList = Object.keys(byCompany).map(function(k){ return Object.assign({key:k}, byCompany[k]); });
+  coList.sort(function(a,b){ return (b.calls+b.emails+b.mtgs) - (a.calls+a.emails+a.mtgs); });
+
+  var TYPE_COLORS = { call:'#4a9eff', email:'#22c55e', meeting:'#f59e0b', demo:'#a855f7' };
+  var OUTCOME_COLORS = { connected:'#22c55e', replied:'#22c55e', booked:'#f59e0b', voicemail:'#5a7090', no_answer:'#5a7090', no_reply:'#3a5070', declined:'#ef4444' };
+  var OUTCOME_LABELS = { connected:'Connected', replied:'Replied', booked:'Meeting Booked', voicemail:'Voicemail', no_answer:'No Answer', no_reply:'No Reply', declined:'Declined' };
+
+  function pct(val, goal) { return Math.min(Math.round(val/goal*100), 100); }
+  function progBar(val, goal, color) {
+    var p = pct(val, goal);
+    var c = p >= 100 ? '#22c55e' : color;
+    return '<div style="flex:1;background:rgba(255,255,255,.06);height:6px;border-radius:3px;position:relative;">' +
+           '<div style="position:absolute;top:0;left:0;height:100%;width:'+p+'%;background:'+c+';border-radius:3px;transition:width .4s;"></div>' +
+           '</div>';
+  }
+
+  var h = '';
+
+  // ── HEADER + VIEW TABS ──────────────────────────────────────────────────
+  h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem;">';
+  h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:1.4rem;text-transform:uppercase;color:#fff;">Sales Activity <span style="color:#C8102E;">Analysis</span></div>';
+  h += '<div style="display:flex;gap:.3rem;">';
+  ['week','month','accounts','log'].forEach(function(v) {
+    var labels = {week:'This Week', month:'This Month', accounts:'By Account', log:'Activity Log'};
+    var active = (settings.view || 'week') === v;
+    h += '<button onclick="(function(){var s=saLoadSettings();s.view=\''+v+'\';saSaveSettings(s);renderSalesAnalysis();})()" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;background:'+(active?'#C8102E':'rgba(255,255,255,.07)')+';color:'+(active?'#fff':'#8A8A8A')+';border:none;padding:.25rem .65rem;cursor:pointer;">'+labels[v]+'</button>';
+  });
+  h += '</div></div>';
+
+  var view = settings.view || 'week';
+
+  // ── GOALS SETTINGS (always visible, compact) ──────────────────────────
+  h += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem;padding:.7rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);">';
+  ['goalCalls','goalEmails','goalMtgs'].forEach(function(k) {
+    var labels2 = {goalCalls:'Weekly Call Goal', goalEmails:'Weekly Email Goal', goalMtgs:'Weekly Mtg Goal'};
+    h += '<div style="display:flex;align-items:center;gap:.4rem;">';
+    h += '<span style="font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;">'+labels2[k]+'</span>';
+    h += '<input type="number" min="1" max="999" value="'+(settings[k]||{goalCalls:20,goalEmails:40,goalMtgs:5}[k])+'" onchange="(function(v){var s=saLoadSettings();s.'+k+'=parseInt(v)||1;saSaveSettings(s);renderSalesAnalysis();})(this.value)" style="width:52px;background:#0d1b2e;border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.82rem;padding:.18rem .3rem;text-align:center;">';
+    h += '</div>';
+  });
+  h += '</div>';
+
+  // ════ WEEK VIEW ════════════════════════════════════════════════════════
+  if (view === 'week') {
+    h += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1rem;">';
+    [
+      {label:'Calls',   val:wCalls,  goal:goalCalls,  color:'#4a9eff'},
+      {label:'Emails',  val:wEmails, goal:goalEmails, color:'#22c55e'},
+      {label:'Meetings',val:wMtgs,   goal:goalMtgs,   color:'#f59e0b'}
+    ].forEach(function(s) {
+      var p = pct(s.val, s.goal);
+      h += '<div style="background:#162d48;border:1px solid rgba(255,255,255,.07);padding:.85rem;border-top:2px solid '+s.color+';">';
+      h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:2rem;color:'+s.color+';line-height:1;">'+s.val+'<span style="font-size:1rem;color:#3a5070;">/'+s.goal+'</span></div>';
+      h += '<div style="font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;">'+s.label+' this week</div>';
+      h += '<div style="display:flex;align-items:center;gap:.5rem;">'+progBar(s.val, s.goal, s.color)+'<span style="font-size:.72rem;color:'+(p>=100?'#22c55e':s.color)+';">'+p+'%</span></div>';
+      h += '</div>';
+    });
+    h += '</div>';
+
+    // Weekly activity breakdown
+    h += '<div style="margin-bottom:1rem;">';
+    h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8A8A;margin-bottom:.5rem;">This Week — Activity Breakdown</div>';
+    if (thisWeek.length === 0) {
+      h += '<div style="color:#3a5070;font-size:.85rem;padding:.75rem;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);">No activity logged this week yet. Use the form below to log calls, emails, and meetings.</div>';
+    } else {
+      h += '<table style="width:100%;border-collapse:collapse;font-size:.82rem;">';
+      h += '<tr style="border-bottom:1px solid rgba(255,255,255,.08);"><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Date</th><th style="padding:.25rem .4rem;color:#3a5070;font-weight:600;">Type</th><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Company</th><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Contact</th><th style="padding:.25rem .4rem;color:#3a5070;font-weight:600;">Outcome</th><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Notes</th><th></th></tr>';
+      thisWeek.slice(0,20).forEach(function(a) {
+        var tc = TYPE_COLORS[a.type] || '#8A8A8A';
+        var oc = OUTCOME_COLORS[a.outcome] || '#5a7090';
+        h += '<tr style="border-bottom:1px solid rgba(255,255,255,.04);">';
+        h += '<td style="padding:.22rem .4rem;color:#5a7090;white-space:nowrap;">'+a.date+'</td>';
+        h += '<td style="padding:.22rem .4rem;text-align:center;"><span style="background:'+tc+'22;color:'+tc+';font-size:.68rem;font-weight:700;padding:.08rem .35rem;text-transform:uppercase;letter-spacing:.06em;">'+a.type+'</span></td>';
+        h += '<td style="padding:.22rem .4rem;color:#e8f0ff;font-weight:600;">'+( a.company||'—')+'</td>';
+        h += '<td style="padding:.22rem .4rem;color:#8A8A8A;">'+( a.contact||'—')+'</td>';
+        h += '<td style="padding:.22rem .4rem;text-align:center;"><span style="color:'+oc+';font-size:.72rem;font-weight:600;">'+(OUTCOME_LABELS[a.outcome]||a.outcome||'—')+'</span></td>';
+        h += '<td style="padding:.22rem .4rem;color:#5a7090;font-size:.78rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(a.notes||'').replace(/"/g,'&quot;')+'">'+( a.notes||'')+'</td>';
+        h += '<td style="padding:.22rem .3rem;"><button onclick="saDeleteActivity('+a.id+')" style="background:none;border:none;color:#3a4a5a;font-size:.85rem;cursor:pointer;" title="Delete">✕</button></td>';
+        h += '</tr>';
+      });
+      h += '</table>';
+    }
+    h += '</div>';
+  }
+
+  // ════ MONTH VIEW ══════════════════════════════════════════════════════
+  else if (view === 'month') {
+    h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1rem;">';
+    [
+      {label:'Calls',    val:mCalls,  color:'#4a9eff'},
+      {label:'Emails',   val:mEmails, color:'#22c55e'},
+      {label:'Meetings', val:mMtgs,   color:'#f59e0b'},
+      {label:'Total',    val:mCalls+mEmails+mMtgs, color:'#a855f7'}
+    ].forEach(function(s) {
+      h += '<div style="background:#162d48;border:1px solid rgba(255,255,255,.07);padding:.85rem;text-align:center;border-top:2px solid '+s.color+';">';
+      h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:2rem;color:'+s.color+';line-height:1;">'+s.val+'</div>';
+      h += '<div style="font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;">'+s.label+' this month</div>';
+      h += '</div>';
+    });
+    h += '</div>';
+
+    // Conversion funnel
+    h += '<div style="margin-bottom:1rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:.85rem;">';
+    h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8A8A;margin-bottom:.6rem;">Conversion Funnel — This Month</div>';
+    h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;text-align:center;">';
+    [
+      {label:'Outreach',  val:totalOutreach, color:'#4a9eff'},
+      {label:'Connected / Replied', val:connected+replied, color:'#22c55e'},
+      {label:'Meeting Booked', val:booked, color:'#f59e0b'},
+      {label:'Connect Rate', val:connectRate+'%', color:'#a855f7', noArrow:true}
+    ].forEach(function(f, i) {
+      h += '<div>';
+      h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:1.6rem;color:'+f.color+';">'+f.val+'</div>';
+      h += '<div style="font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;line-height:1.3;">'+f.label+'</div>';
+      h += '</div>';
+    });
+    h += '</div></div>';
+
+    // Outcome breakdown
+    h += '<div style="margin-bottom:1rem;">';
+    h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8A8A;margin-bottom:.5rem;">Outcome Breakdown</div>';
+    h += '<div style="display:flex;flex-direction:column;gap:.3rem;">';
+    var outcomes = ['connected','replied','booked','voicemail','no_answer','no_reply','declined'];
+    outcomes.forEach(function(oc) {
+      var cnt = countOutcome(thisMonth, oc);
+      if (cnt === 0) return;
+      var pctV = totalOutreach > 0 ? Math.round(cnt/totalOutreach*100) : 0;
+      var oc2 = OUTCOME_COLORS[oc] || '#5a7090';
+      h += '<div style="display:flex;align-items:center;gap:.6rem;font-size:.82rem;">';
+      h += '<span style="min-width:130px;color:'+oc2+';font-weight:600;">'+(OUTCOME_LABELS[oc]||oc)+'</span>';
+      h += '<div style="flex:1;background:rgba(255,255,255,.05);height:8px;border-radius:4px;position:relative;"><div style="position:absolute;top:0;left:0;height:100%;width:'+pctV+'%;background:'+oc2+';border-radius:4px;"></div></div>';
+      h += '<span style="color:'+oc2+';min-width:50px;text-align:right;">'+cnt+' ('+pctV+'%)</span>';
+      h += '</div>';
+    });
+    h += '</div></div>';
+  }
+
+  // ════ ACCOUNTS VIEW ═══════════════════════════════════════════════════
+  else if (view === 'accounts') {
+    h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8A8A;margin-bottom:.5rem;">Account-Level Activity — Management View</div>';
+    if (coList.length === 0) {
+      h += '<div style="color:#3a5070;font-size:.85rem;padding:.75rem;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);">No activity logged yet. Start logging calls and emails below.</div>';
+    } else {
+      h += '<table style="width:100%;border-collapse:collapse;font-size:.82rem;">';
+      h += '<tr style="border-bottom:1px solid rgba(255,255,255,.08);">';
+      h += '<th style="text-align:left;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Company</th>';
+      h += '<th style="text-align:center;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Calls</th>';
+      h += '<th style="text-align:center;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Emails</th>';
+      h += '<th style="text-align:center;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Meetings</th>';
+      h += '<th style="text-align:left;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Last Activity</th>';
+      h += '<th style="text-align:left;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Last Outcome</th>';
+      h += '<th style="text-align:left;padding:.28rem .4rem;color:#3a5070;font-weight:600;">Contacts Reached</th>';
+      h += '</tr>';
+      coList.forEach(function(co, i) {
+        var bg = i%2===0 ? 'rgba(255,255,255,.02)' : 'transparent';
+        var oc2 = OUTCOME_COLORS[co.lastOutcome] || '#5a7090';
+        h += '<tr style="background:'+bg+';border-bottom:1px solid rgba(255,255,255,.04);">';
+        h += '<td style="padding:.28rem .4rem;font-weight:600;color:#e8f0ff;">'+co.key+'</td>';
+        h += '<td style="padding:.28rem .4rem;text-align:center;color:#4a9eff;font-weight:700;">'+co.calls+'</td>';
+        h += '<td style="padding:.28rem .4rem;text-align:center;color:#22c55e;font-weight:700;">'+co.emails+'</td>';
+        h += '<td style="padding:.28rem .4rem;text-align:center;color:#f59e0b;font-weight:700;">'+co.mtgs+'</td>';
+        h += '<td style="padding:.28rem .4rem;color:#5a7090;white-space:nowrap;">'+( co.lastDate||'—')+'</td>';
+        h += '<td style="padding:.28rem .4rem;"><span style="color:'+oc2+';font-size:.75rem;font-weight:600;">'+(OUTCOME_LABELS[co.lastOutcome]||co.lastOutcome||'—')+'</span></td>';
+        h += '<td style="padding:.28rem .4rem;color:#8A8A8A;font-size:.78rem;">'+( co.contacts.join(', ')||'—')+'</td>';
+        h += '</tr>';
+      });
+      h += '</table>';
+    }
+  }
+
+  // ════ ACTIVITY LOG VIEW ═══════════════════════════════════════════════
+  else if (view === 'log') {
+    h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#8A8A8A;margin-bottom:.5rem;">Full Activity Log ('+log.length+' entries)</div>';
+    if (log.length === 0) {
+      h += '<div style="color:#3a5070;font-size:.85rem;padding:.75rem;background:rgba(255,255,255,.02);border:1px dashed rgba(255,255,255,.06);">No activity logged yet.</div>';
+    } else {
+      h += '<div style="max-height:340px;overflow-y:auto;">';
+      h += '<table style="width:100%;border-collapse:collapse;font-size:.8rem;">';
+      h += '<tr style="border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:#162d48;"><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Date</th><th style="padding:.25rem .4rem;color:#3a5070;font-weight:600;">Type</th><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Company</th><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Contact</th><th style="padding:.25rem .4rem;color:#3a5070;font-weight:600;">Outcome</th><th style="text-align:left;padding:.25rem .4rem;color:#3a5070;font-weight:600;">Notes</th><th></th></tr>';
+      log.forEach(function(a) {
+        var tc = TYPE_COLORS[a.type] || '#8A8A8A';
+        var oc = OUTCOME_COLORS[a.outcome] || '#5a7090';
+        h += '<tr style="border-bottom:1px solid rgba(255,255,255,.03);">';
+        h += '<td style="padding:.2rem .4rem;color:#5a7090;white-space:nowrap;">'+a.date+'</td>';
+        h += '<td style="padding:.2rem .4rem;text-align:center;"><span style="background:'+tc+'22;color:'+tc+';font-size:.65rem;font-weight:700;padding:.06rem .3rem;text-transform:uppercase;">'+a.type+'</span></td>';
+        h += '<td style="padding:.2rem .4rem;color:#e8f0ff;font-weight:600;">'+( a.company||'—')+'</td>';
+        h += '<td style="padding:.2rem .4rem;color:#8A8A8A;">'+( a.contact||'—')+'</td>';
+        h += '<td style="padding:.2rem .4rem;text-align:center;"><span style="color:'+oc+';font-size:.7rem;font-weight:600;">'+(OUTCOME_LABELS[a.outcome]||a.outcome||'—')+'</span></td>';
+        h += '<td style="padding:.2rem .4rem;color:#5a7090;font-size:.76rem;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(a.notes||'').replace(/"/g,'&quot;')+'">'+( a.notes||'')+'</td>';
+        h += '<td style="padding:.2rem .3rem;"><button onclick="saDeleteActivity('+a.id+')" style="background:none;border:none;color:#3a4a5a;font-size:.82rem;cursor:pointer;" title="Delete">✕</button></td>';
+        h += '</tr>';
+      });
+      h += '</table></div>';
+    }
+  }
+
+  // ── LOG ACTIVITY FORM ─────────────────────────────────────────────────
+  h += '<div style="margin-top:1rem;border-top:1px solid rgba(255,255,255,.07);padding-top:.85rem;">';
+  h += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#C8102E;margin-bottom:.55rem;">&#43; Log Activity</div>';
+  h += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.45rem;margin-bottom:.45rem;">';
+
+  // Type
+  h += '<div><div style="font-size:.65rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;">Type</div>';
+  h += '<select id="sa-type" style="width:100%;background:#0d1b2e;border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.82rem;padding:.28rem .4rem;">';
+  h += '<option value="call">📞 Call</option><option value="email">✉ Email</option><option value="meeting">🤝 Meeting</option><option value="demo">🎯 Demo</option>';
+  h += '</select></div>';
+
+  // Company
+  h += '<div><div style="font-size:.65rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;">Company</div>';
+  h += '<input id="sa-company" type="text" placeholder="e.g. JLL" list="sa-company-list" style="width:100%;box-sizing:border-box;background:#0d1b2e;border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.82rem;padding:.28rem .4rem;">';
+  h += '<datalist id="sa-company-list">';
+  var allCoNames = typeof MKT_ORGS !== 'undefined' ? Object.keys(MKT_ORGS) : [];
+  allCoNames.slice(0,60).forEach(function(c){ h += '<option value="'+c.replace(/"/g,'&quot;')+'">'; });
+  h += '</datalist></div>';
+
+  // Contact
+  h += '<div><div style="font-size:.65rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;">Contact Name</div>';
+  h += '<input id="sa-contact" type="text" placeholder="e.g. Jill Kouri" style="width:100%;box-sizing:border-box;background:#0d1b2e;border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.82rem;padding:.28rem .4rem;">';
+  h += '</div>';
+
+  // Outcome
+  h += '<div><div style="font-size:.65rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;">Outcome</div>';
+  h += '<select id="sa-outcome" style="width:100%;background:#0d1b2e;border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.82rem;padding:.28rem .4rem;">';
+  h += '<option value="connected">Connected</option>';
+  h += '<option value="voicemail">Voicemail</option>';
+  h += '<option value="no_answer">No Answer</option>';
+  h += '<option value="replied">Email Replied</option>';
+  h += '<option value="no_reply">No Reply</option>';
+  h += '<option value="booked">Meeting Booked</option>';
+  h += '<option value="declined">Declined</option>';
+  h += '</select></div>';
+
+  h += '</div>'; // end grid
+
+  // Notes + submit
+  h += '<div style="display:flex;gap:.45rem;align-items:flex-end;">';
+  h += '<div style="flex:1;"><div style="font-size:.65rem;color:#5a7090;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.18rem;">Notes (optional)</div>';
+  h += '<input id="sa-notes" type="text" placeholder="e.g. Left VM, follow up Fri — mentioned remodel budget" style="width:100%;box-sizing:border-box;background:#0d1b2e;border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.82rem;padding:.28rem .4rem;">';
+  h += '</div>';
+  h += '<button onclick="(function(){';
+  h += 'var t=document.getElementById(\'sa-type\').value;';
+  h += 'var co=document.getElementById(\'sa-company\').value.trim();';
+  h += 'var ct=document.getElementById(\'sa-contact\').value.trim();';
+  h += 'var oc=document.getElementById(\'sa-outcome\').value;';
+  h += 'var n=document.getElementById(\'sa-notes\').value.trim();';
+  h += 'if(!co){alert(\'Enter a company name\');return;}';
+  h += 'saAddActivity(t,co,ct,n,oc);';
+  h += 'document.getElementById(\'sa-company\').value=\'\';';
+  h += 'document.getElementById(\'sa-contact\').value=\'\';';
+  h += 'document.getElementById(\'sa-notes\').value=\'\';';
+  h += '})()" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;background:#C8102E;color:#fff;border:none;padding:.32rem 1.2rem;cursor:pointer;white-space:nowrap;">Log It</button>';
+  h += '</div>';
+
+  h += '</div>'; // end log form
 
   wrap.innerHTML = h;
 }
@@ -4547,6 +5030,317 @@ function initFinancialViz() {
   buildWaterfall();
 }
 
+// ── EMAIL OUTREACH COMPOSER ───────────────────────────────────────────────────
+
+var EMAIL_TEMPLATES = [
+  {
+    id: 'cold_intro',
+    label: 'Cold Intro',
+    subject: 'Branded Environment for {{company}} — Foxmark Chicago',
+    body: `Hi {{firstName}},
+
+I lead business development at Foxmark Chicago — we're a large-format print and environmental graphics studio that works with companies like Kraft Heinz, McDonald's, and Allstate on branded spaces: lobby graphics, wall murals, wayfinding systems, trade show builds, and full interior environments.
+
+I've been following {{company}}'s growth and thought there might be a fit — especially if you have any facility upgrades, remodels, or new spaces coming up where the physical environment needs to reflect the brand.
+
+Would a 15-minute call make sense to see if there's overlap? Happy to send examples relevant to your sector first if that's easier.
+
+Best,
+{{senderName}}
+Foxmark Chicago Studio Laboratory
+{{senderEmail}}`
+  },
+  {
+    id: 'trigger_remodel',
+    label: 'Trigger — Remodel',
+    subject: 'Environmental Graphics for {{company}}\'s Upcoming Project',
+    body: `Hi {{firstName}},
+
+Congrats on {{company}}'s new location / upcoming remodel — those projects move fast and the branded environment piece often gets planned last.
+
+At Foxmark Chicago, we handle the physical brand side: wall graphics, wayfinding, lobby builds, dimensional signage, and full interior installs. We're set up to move quickly and work directly from brand guidelines or alongside your design team.
+
+If it would be useful, I can put together a quick scope + ballpark based on your footprint. Takes about 20 minutes on a call.
+
+Worth a conversation?
+
+Best,
+{{senderName}}
+Foxmark Chicago Studio Laboratory
+{{senderEmail}}`
+  },
+  {
+    id: 'referral_intro',
+    label: 'Warm — Referral',
+    subject: 'Introduction — Foxmark Chicago / {{company}}',
+    body: `Hi {{firstName}},
+
+I was introduced to you through [mutual contact] and wanted to reach out directly.
+
+Foxmark Chicago is a large-format print and environmental graphics studio — we produce and install branded environments for F500 companies and growing mid-market firms across Chicago. Think lobby murals, wayfinding systems, trade show builds, and interior brand programs.
+
+Given what you're working on at {{company}}, I thought it was worth a quick conversation. Would 15 minutes work sometime this week or next?
+
+Best,
+{{senderName}}
+Foxmark Chicago Studio Laboratory
+{{senderEmail}}`
+  },
+  {
+    id: 'followup',
+    label: 'Follow-Up',
+    subject: 'Re: Foxmark Chicago + {{company}}',
+    body: `Hi {{firstName}},
+
+Just following up on my note from [X days] ago — wanted to make sure it didn't get buried.
+
+Short version: Foxmark Chicago handles large-format print and environmental graphics — branded lobbies, wall systems, wayfinding, trade show builds. We work with companies like [relevant client] and thought {{company}} might be a good fit.
+
+If the timing isn't right, totally understood — just let me know and I'll check back in Q[X]. Otherwise, happy to set up a 15-minute call.
+
+{{senderName}}
+Foxmark Chicago Studio Laboratory
+{{senderEmail}}`
+  },
+  {
+    id: 'proposal_follow',
+    label: 'Post-Meeting',
+    subject: 'Foxmark Proposal — {{company}} Environmental Graphics',
+    body: `Hi {{firstName}},
+
+Great talking earlier — I've attached a brief scope + investment range based on what we discussed.
+
+Quick summary of what's included:
+• [Deliverable 1 — e.g., Lobby wall mural, 12' x 8']
+• [Deliverable 2 — e.g., Wayfinding system, 3 floors]
+• [Deliverable 3 — e.g., Conference room graphics, 6 rooms]
+
+Production lead time is approximately [X] weeks from artwork approval. We can also phase the project if that helps with timing or budget.
+
+Happy to jump on a call to walk through it — just let me know what works.
+
+{{senderName}}
+Foxmark Chicago Studio Laboratory
+{{senderEmail}}`
+  }
+];
+
+var emailComposerState = {
+  contact: null,
+  company: null,
+  templateId: 'cold_intro',
+  senderName: '',
+  senderEmail: ''
+};
+
+// ── Build and inject composer DOM once ──────────────────────────────────────
+function buildEmailComposerDOM() {
+  if (document.getElementById('ec-modal')) return;
+
+  var overlay = document.createElement('div');
+  overlay.id = 'ec-modal';
+  overlay.style.cssText = [
+    'position:fixed',
+    'inset:0',
+    'z-index:100000',
+    'background:rgba(0,0,0,.82)',
+    'display:none',
+    'align-items:center',
+    'justify-content:center',
+    'padding:1rem',
+    'pointer-events:auto'
+  ].join(';');
+
+  overlay.innerHTML = [
+    '<div id="ec-box" style="',
+      'background:#161d2a;',
+      'border:1px solid rgba(255,255,255,.12);',
+      'width:100%;max-width:660px;max-height:90vh;',
+      'overflow-y:auto;',
+      'position:relative;',
+      'pointer-events:auto;',
+      'font-family:Barlow,sans-serif;',
+    '">',
+
+    // Header
+    '<div style="background:rgba(200,16,46,.12);border-bottom:1px solid rgba(200,16,46,.25);padding:.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;">',
+      '<div>',
+        '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#C8102E;margin-bottom:.15rem;">Foxmark Outreach Composer</div>',
+        '<div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;">',
+          '<span style="color:#fff;font-weight:700;font-size:.9rem;" id="ec-contact-label">—</span>',
+          '<span style="color:#4a9eff;font-size:.8rem;font-weight:600;" id="ec-company-label">—</span>',
+        '</div>',
+      '</div>',
+      '<button id="ec-close-btn" style="background:none;border:none;color:#666;font-size:1.5rem;cursor:pointer;padding:.2rem .5rem;line-height:1;pointer-events:auto;">&times;</button>',
+    '</div>',
+
+    // Body
+    '<div style="padding:1rem 1.1rem;">',
+
+      // Sender fields
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.9rem;">',
+        '<div>',
+          '<div style="font-size:.68rem;color:#5a7090;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem;">Your Name</div>',
+          '<input id="ec-sender-name" type="text" placeholder="e.g. Rick Krohn" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.84rem;padding:.38rem .55rem;outline:none;font-family:Barlow,sans-serif;pointer-events:auto;">',
+        '</div>',
+        '<div>',
+          '<div style="font-size:.68rem;color:#5a7090;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem;">Your Email</div>',
+          '<input id="ec-sender-email" type="email" placeholder="you@foxmarkchicago.com" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.84rem;padding:.38rem .55rem;outline:none;font-family:Barlow,sans-serif;pointer-events:auto;">',
+        '</div>',
+      '</div>',
+
+      // Template picker
+      '<div style="margin-bottom:.8rem;">',
+        '<div style="font-size:.68rem;color:#5a7090;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.38rem;">Template</div>',
+        '<div id="ec-template-btns" style="display:flex;flex-wrap:wrap;gap:.3rem;"></div>',
+      '</div>',
+
+      // Subject
+      '<div style="margin-bottom:.7rem;">',
+        '<div style="font-size:.68rem;color:#5a7090;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.22rem;">Subject Line</div>',
+        '<input id="ec-subject" type="text" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#e8f0ff;font-size:.84rem;padding:.38rem .55rem;outline:none;font-family:Barlow,sans-serif;pointer-events:auto;">',
+      '</div>',
+
+      // Body
+      '<div style="margin-bottom:.85rem;">',
+        '<div style="font-size:.68rem;color:#5a7090;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.22rem;">',
+          'Email Body <span style="color:#3a5070;font-weight:400;text-transform:none;letter-spacing:0;">— edit before sending</span>',
+        '</div>',
+        '<textarea id="ec-body" rows="13" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);color:#c8d8e8;font-size:.8rem;line-height:1.6;padding:.55rem .7rem;outline:none;font-family:Barlow,sans-serif;resize:vertical;pointer-events:auto;"></textarea>',
+      '</div>',
+
+      // Actions
+      '<div style="display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;">',
+        '<button id="ec-send-btn" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.1em;text-transform:uppercase;background:#C8102E;color:#fff;border:none;padding:.45rem 1.3rem;cursor:pointer;pointer-events:auto;">&#9993; Open in Email Client</button>',
+        '<button id="ec-copy-btn" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:1px solid rgba(255,255,255,.12);padding:.45rem 1rem;cursor:pointer;pointer-events:auto;">Copy Body</button>',
+        '<button id="ec-cancel-btn" style="font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:.86rem;letter-spacing:.1em;text-transform:uppercase;background:transparent;color:#444;border:1px solid rgba(255,255,255,.07);padding:.45rem .9rem;cursor:pointer;pointer-events:auto;">Cancel</button>',
+        '<span style="margin-left:auto;font-size:.72rem;color:#3a5070;">Brackets [ ] = fill in before sending</span>',
+      '</div>',
+
+    '</div>',  // end body padding
+    '</div>'   // end ec-box
+  ].join('');
+
+  document.body.appendChild(overlay);
+
+  // Wire static buttons
+  document.getElementById('ec-close-btn').addEventListener('click',  function(e){ e.stopPropagation(); closeEmailComposer(); });
+  document.getElementById('ec-cancel-btn').addEventListener('click', function(e){ e.stopPropagation(); closeEmailComposer(); });
+  document.getElementById('ec-send-btn').addEventListener('click',   function(e){ e.stopPropagation(); emailComposerSend(); });
+  document.getElementById('ec-copy-btn').addEventListener('click',   function(e){ e.stopPropagation(); emailComposerCopy(); });
+
+  document.getElementById('ec-sender-name').addEventListener('input',  emailComposerRefill);
+  document.getElementById('ec-sender-email').addEventListener('input', emailComposerRefill);
+
+  // Close on backdrop click
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) closeEmailComposer(); });
+
+  // Build template buttons
+  var tplWrap = document.getElementById('ec-template-btns');
+  EMAIL_TEMPLATES.forEach(function(t) {
+    var btn = document.createElement('button');
+    btn.id = 'ec-tpl-' + t.id;
+    btn.textContent = t.label;
+    btn.style.cssText = "font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:1px solid rgba(255,255,255,.12);padding:.22rem .65rem;cursor:pointer;margin-bottom:.18rem;pointer-events:auto;";
+    btn.addEventListener('click', (function(id){ return function(e){ e.stopPropagation(); emailComposerSelectTemplate(id); }; })(t.id));
+    tplWrap.appendChild(btn);
+  });
+}
+
+window.openEmailComposer = function(contactName, contactTitle, companyName) {
+  buildEmailComposerDOM();
+
+  emailComposerState.contact = { name: contactName, title: contactTitle };
+  emailComposerState.company = companyName;
+  emailComposerState.templateId = 'cold_intro';
+
+  document.getElementById('ec-contact-label').textContent = contactName + ' — ' + contactTitle;
+  document.getElementById('ec-company-label').textContent = companyName;
+
+  // Restore saved sender info
+  var snEl = document.getElementById('ec-sender-name');
+  var seEl = document.getElementById('ec-sender-email');
+  if (snEl && emailComposerState.senderName) snEl.value = emailComposerState.senderName;
+  if (seEl && emailComposerState.senderEmail) seEl.value = emailComposerState.senderEmail;
+
+  emailComposerSelectTemplate('cold_intro');
+
+  var modal = document.getElementById('ec-modal');
+  modal.style.display = 'flex';
+};
+
+window.closeEmailComposer = function() {
+  // Save sender info for next time
+  var snEl = document.getElementById('ec-sender-name');
+  var seEl = document.getElementById('ec-sender-email');
+  if (snEl) emailComposerState.senderName  = snEl.value;
+  if (seEl) emailComposerState.senderEmail = seEl.value;
+
+  var modal = document.getElementById('ec-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+window.emailComposerSelectTemplate = function(id) {
+  emailComposerState.templateId = id;
+  var tpl = EMAIL_TEMPLATES.find(function(t){ return t.id === id; });
+  if (!tpl) return;
+
+  // Highlight active template button
+  EMAIL_TEMPLATES.forEach(function(t) {
+    var btn = document.getElementById('ec-tpl-' + t.id);
+    if (btn) {
+      btn.style.background = t.id === id ? '#C8102E' : 'rgba(255,255,255,.07)';
+      btn.style.color = t.id === id ? '#fff' : '#8A8A8A';
+      btn.style.borderColor = t.id === id ? '#C8102E' : 'rgba(255,255,255,.12)';
+    }
+  });
+
+  var firstName = (emailComposerState.contact.name || '').split(' ')[0];
+  if (firstName === '(Verify' || firstName === '(verify') firstName = '[First Name]';
+
+  var snEl = document.getElementById('ec-sender-name');
+  var seEl = document.getElementById('ec-sender-email');
+  var senderName = snEl ? (snEl.value || '[Your Name]') : '[Your Name]';
+  var senderEmail = seEl ? (seEl.value || '[your@foxmarkchicago.com]') : '[your@foxmarkchicago.com]';
+
+  function fill(str) {
+    return str
+      .replace(/{{firstName}}/g, firstName)
+      .replace(/{{company}}/g, emailComposerState.company || '')
+      .replace(/{{senderName}}/g, senderName)
+      .replace(/{{senderEmail}}/g, senderEmail);
+  }
+
+  var subEl = document.getElementById('ec-subject');
+  var bodyEl = document.getElementById('ec-body');
+  if (subEl) subEl.value = fill(tpl.subject);
+  if (bodyEl) bodyEl.value = fill(tpl.body);
+}
+
+window.emailComposerRefill = function() {
+  emailComposerSelectTemplate(emailComposerState.templateId);
+}
+
+window.emailComposerSend = function() {
+  var subject = document.getElementById('ec-subject').value;
+  var body = document.getElementById('ec-body').value;
+  var mailto = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+}
+
+window.emailComposerCopy = function() {
+  var body = document.getElementById('ec-body').value;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(body).then(function() {
+      var btn = document.getElementById('ec-copy-btn');
+      if (btn) { btn.textContent = '✓ Copied'; setTimeout(function(){ btn.textContent = 'Copy Body'; }, 2000); }
+    });
+  } else {
+    var ta = document.getElementById('ec-body');
+    ta.select(); document.execCommand('copy');
+  }
+}
+
 // Re-init charts whenever modals open
 var _origOpen = window.openModal;
 window.openModal = function(id) {
@@ -4562,5 +5356,10 @@ window.openModal = function(id) {
   }
 };
 </script>
+
+
+<!-- ── EMAIL OUTREACH COMPOSER MODAL ─────────────────────────────────────── -->
+<!-- NOTE: opened via JS which appends directly to body -->
+
 </body>
 </html>
