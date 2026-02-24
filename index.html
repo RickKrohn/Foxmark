@@ -159,7 +159,7 @@ h2 em { color: var(--red); font-style: normal; }
 .hero-stat { border-left: 2px solid var(--red); padding-left: 0.875rem; }
 .hero-stat .num { font-family: 'Barlow Condensed',sans-serif; font-weight: 900; font-size: 2.2rem; line-height: 1; }
 .hero-stat .lbl { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--silver); margin-top: 0.2rem; line-height: 1.3; }
-.hero-right { position: relative; overflow: hidden; background: var(--charcoal); display: flex; flex-direction: column; justify-content: flex-end; }
+.hero-right { position: relative; overflow: hidden; background: var(--charcoal); display: flex; flex-direction: column; justify-content: center; }
 .hero-right-content { padding: 3rem; position: relative; z-index: 2; }
 .hero-tag { position: absolute; top: 2rem; right: 2rem; background: var(--red); padding: 0.4rem 0.9rem; font-family: 'Barlow Condensed',sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; z-index: 3; }
 .big-bg { position: absolute; bottom: -3rem; right: -1rem; font-family: 'Barlow Condensed',sans-serif; font-weight: 900; font-size: 18vw; line-height: 1; text-transform: uppercase; color: rgba(255,255,255,0.025); pointer-events: none; letter-spacing: -0.04em; }
@@ -315,13 +315,13 @@ h2 em { color: var(--red); font-style: normal; }
 /* ════════════════════════════════════════
    PAGE 2 — RICK KROHN
 ════════════════════════════════════════ */
-.bio-hero { min-height: 100vh; display: grid; grid-template-columns: 50% 50%; padding-top: 96px; overflow: hidden; }
+.bio-hero { min-height: 60vh; display: grid; grid-template-columns: 1fr; padding-top: 96px; overflow: hidden; }
 .bio-photo { position: relative; background: var(--charcoal); overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .bio-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, var(--dark) 100%), linear-gradient(to top, var(--dark) 0%, transparent 30%); z-index: 2; }
 .monogram { font-family: 'Barlow Condensed',sans-serif; font-weight: 900; font-size: 18rem; line-height: 1; color: rgba(200,16,46,0.12); letter-spacing: -0.05em; user-select: none; }
 .photo-tag { position: absolute; bottom: 3rem; left: 3rem; z-index: 3; font-family: 'Barlow Condensed',sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 0.75rem; }
 .photo-tag::before { content: ''; width: 2rem; height: 1px; background: var(--red); }
-.bio-right { display: flex; flex-direction: column; justify-content: center; padding: 5rem 5rem 5rem 4rem; position: relative; z-index: 2; }
+.bio-right { display: flex; flex-direction: column; justify-content: center; padding: 4rem 5rem; position: relative; z-index: 2; max-width: 900px; }
 .hero-title { font-family: 'Barlow Condensed',sans-serif; font-weight: 600; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver); margin-bottom: 2rem; }
 .hero-tagline { font-family: 'Barlow Condensed',sans-serif; font-weight: 700; font-size: 1.5rem; line-height: 1.2; margin-bottom: 1.5rem; max-width: 480px; }
 .hero-tagline em { color: var(--red); font-style: normal; }
@@ -748,6 +748,10 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
     }
     /* Prevent iOS font size adjustment */
     html { -webkit-text-size-adjust: 100%; }
+    /* Competitive modal — reduce section padding to fit modal width */
+    #modal-competitive .section { padding: 2rem 0 !important; }
+    #modal-competitive .section-alt { padding: 2rem 0 !important; }
+    #modal-competitive .page-header { display:none; }
 </style>
 </head>
 <body>
@@ -774,7 +778,6 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
     <a class="nav-logo" onclick="showPage('main')" style="cursor:pointer;">FOX<span>MARK</span><small>Chicago Studio Laboratory</small></a>
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showPage('main')" id="tab-main">Studio &amp; Overview</button>
-      <button class="nav-tab" onclick="showPage('competitive')" id="tab-competitive">Competitive</button>
       <button class="nav-tab" onclick="showPage('rick')" id="tab-rick" style="font-size:.75rem;opacity:.6;letter-spacing:.08em;">Rick Krohn</button>
     </div>
     <button class="nav-cta" onclick="showPage('main'); setTimeout(()=>document.getElementById('contact-section').scrollIntoView({behavior:'smooth'}),100)">Request Meeting</button>
@@ -807,21 +810,32 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
   <div class="hero-right">
     <div class="hero-tag">Now Serving Chicagoland</div>
     <div class="big-bg">CHI</div>
-    <div class="hero-right-content" style="display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem;">
-      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(90,171,255,.15);border-left:3px solid #5aabff;padding:.9rem 1.1rem;border-radius:2px;">
+    <div class="hero-right-content" style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(90,171,255,.5);margin-bottom:.25rem;">Chicago Studio Roadmap</div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(90,171,255,.15);border-left:3px solid #5aabff;padding:1.1rem 1.3rem;border-radius:2px;">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(90,171,255,.6);margin-bottom:.2rem;">Now — 3 Months</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;text-transform:uppercase;color:#e8f0ff;letter-spacing:.04em;">Pre-Launch &amp; Pilots</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;color:#e8f0ff;letter-spacing:.04em;">Pre-Launch &amp; Pilots</div>
         <div style="font-size:.78rem;color:#6e8aaa;margin-top:.2rem;">$200K–$300K pilot commitments &middot; 200–300 prospects</div>
       </div>
-      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,16,46,.15);border-left:3px solid #C8102E;padding:.9rem 1.1rem;border-radius:2px;">
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,16,46,.15);border-left:3px solid #C8102E;padding:1.1rem 1.3rem;border-radius:2px;">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,16,46,.6);margin-bottom:.2rem;">Year 1</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;text-transform:uppercase;color:#e8f0ff;letter-spacing:.04em;">Studio Launch · $1.52M</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;color:#e8f0ff;letter-spacing:.04em;">Studio Launch · $1.52M</div>
         <div style="font-size:.78rem;color:#6e8aaa;margin-top:.2rem;">2–3 anchor accounts &middot; 20–30 mid-market clients</div>
       </div>
-      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(34,197,94,.15);border-left:3px solid #22c55e;padding:.9rem 1.1rem;border-radius:2px;">
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(34,197,94,.15);border-left:3px solid #22c55e;padding:1.1rem 1.3rem;border-radius:2px;">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(34,197,94,.6);margin-bottom:.2rem;">Years 2–3</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;text-transform:uppercase;color:#e8f0ff;letter-spacing:.04em;">Scale · $3.2M / $4.3M</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;text-transform:uppercase;color:#e8f0ff;letter-spacing:.04em;">Scale · $3.2M / $4.3M</div>
         <div style="font-size:.78rem;color:#6e8aaa;margin-top:.2rem;">National anchor scaling &middot; Midwest playbooks</div>
+      </div>
+      <div style="margin-top:.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:.75rem 1rem;text-align:center;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#fff;line-height:1;">63%</div>
+          <div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#4a6080;margin-top:.2rem;">Gross Margin</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:.75rem 1rem;text-align:center;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#fff;line-height:1;">~$4.3M</div>
+          <div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#4a6080;margin-top:.2rem;">Year 3 Target</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1065,29 +1079,29 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
 </div>
 <div
   class="spot-cell"
-  data-color="#94a3b8"
-  data-modal="modal-downloads"
+  data-color="#ef4444"
+  data-modal="modal-competitive"
   onmouseenter="spotOn(this)"
   onmouseleave="spotOff(this)"
-  onclick="openModal('modal-downloads')"
+  onclick="openModal('modal-competitive')"
   style="position:relative;overflow:hidden;cursor:pointer;background:#050d18;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem 1.6rem 1.8rem;min-height:260px;border:1px solid rgba(255,255,255,.04);transition:border-color .3s;">
 
   <!-- Full bleed color wash — hidden by default, revealed on hover -->
-  <div class="spot-wash" style="position:absolute;inset:0;background:linear-gradient(145deg,#94a3b8,#94a3b888);opacity:0;transition:opacity .35s;"></div>
+  <div class="spot-wash" style="position:absolute;inset:0;background:linear-gradient(145deg,#ef4444,#ef444488);opacity:0;transition:opacity .35s;"></div>
 
   <!-- Diagonal geometric accent — brand language -->
-  <div class="spot-geo" style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:#94a3b8;opacity:0;transform:rotate(20deg) scale(.6);transition:opacity .35s,transform .4s;border-radius:2px;"></div>
+  <div class="spot-geo" style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:#ef4444;opacity:0;transform:rotate(20deg) scale(.6);transition:opacity .35s,transform .4s;border-radius:2px;"></div>
 
   <!-- Stat badge — appears on hover -->
-  <div class="spot-stat" style="position:absolute;top:1.4rem;left:1.6rem;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:white;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.25);padding:.25rem .65rem;opacity:0;transform:translateY(-6px);transition:opacity .3s .05s,transform .3s .05s;">3 Core Files</div>
+  <div class="spot-stat" style="position:absolute;top:1.4rem;left:1.6rem;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:white;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.25);padding:.25rem .65rem;opacity:0;transform:translateY(-6px);transition:opacity .3s .05s,transform .3s .05s;">14 Rivals Mapped</div>
 
   <!-- Vertical rule — always visible, color animates -->
-  <div class="spot-rule" style="position:absolute;left:0;top:20%;bottom:20%;width:2px;background:#94a3b8;opacity:.15;transition:opacity .3s,top .3s,bottom .3s;"></div>
+  <div class="spot-rule" style="position:absolute;left:0;top:20%;bottom:20%;width:2px;background:#ef4444;opacity:.15;transition:opacity .3s,top .3s,bottom .3s;"></div>
 
   <!-- Label — muted by default -->
   <div style="position:relative;z-index:2;">
-    <div class="spot-label" style="font-family:'Barlow Condensed',sans-serif;font-size:1.35rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,.25);line-height:1.15;letter-spacing:.03em;transition:color .3s,font-size .3s;">Source<br>Documents</div>
-    <div class="spot-meta" style="font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:transparent;margin-top:.5rem;transition:color .3s .08s;">Playbook · Model · Deck</div>
+    <div class="spot-label" style="font-family:'Barlow Condensed',sans-serif;font-size:1.35rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,.25);line-height:1.15;letter-spacing:.03em;transition:color .3s,font-size .3s;">Competitive<br>Intel</div>
+    <div class="spot-meta" style="font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:transparent;margin-top:.5rem;transition:color .3s .08s;">14 Rivals · Matrix · FORTÉ</div>
     <!-- CTA arrow — hidden until hover -->
     <div class="spot-cta" style="display:flex;align-items:center;gap:.4rem;margin-top:.9rem;opacity:0;transform:translateY(6px);transition:opacity .25s .1s,transform .25s .1s;">
       <span style="font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.14em;color:white;">OPEN</span>
@@ -1520,7 +1534,30 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
         </div>
       </div>
     </div>
+
+  <!-- ── SOURCE DOCUMENTS ─────────────────────────────────────────────── -->
+  <div style="margin-top:2.5rem;border-top:1px solid rgba(255,255,255,.07);padding-top:2rem;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.25em;text-transform:uppercase;color:#94a3b8;margin-bottom:1.25rem;">Source Documents — Download the Original Files</div>
+    <div style="display:flex;flex-direction:column;gap:.75rem;">
+      <div onclick="dlFile('playbook')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:1.25rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
+        <div style="font-size:2rem;">📋</div>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;">Master Project Playbook</div><div style="font-size:.82rem;color:#8A8A8A;margin-top:.1rem;">Word Document (.docx) · Complete studio strategy</div></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;color:#C8102E;white-space:nowrap;">&#11015; Download</div>
+      </div>
+      <div onclick="dlFile('model')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:1.25rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
+        <div style="font-size:2rem;">💹</div>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;">Financial Model + Playbook Tables</div><div style="font-size:.82rem;color:#8A8A8A;margin-top:.1rem;">Excel Spreadsheet (.xlsx) · Full P&amp;L and KPI model</div></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;color:#22c55e;white-space:nowrap;">&#11015; Download</div>
+      </div>
+      <div onclick="dlFile('deck')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:1.25rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='#4a9eff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
+        <div style="font-size:2rem;">📊</div>
+        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.95rem;text-transform:uppercase;">Executive Decision Deck</div><div style="font-size:.82rem;color:#8A8A8A;margin-top:.1rem;">PowerPoint (.pptx) · Model-aligned executive presentation</div></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;color:#4a9eff;white-space:nowrap;">&#11015; Download</div>
+      </div>
+    </div>
   </div>
+
+  </div><!-- end modal-playbook -->
 
   <div id="modal-financial" class="modal-content" style="display:none;padding:3rem;">
     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:#22c55e;margin-bottom:.75rem;">Financial Model v8 &middot; Recalibrated vs. AlphaGraphics FDD 2024 · Feb 2026</div>
@@ -2081,63 +2118,6 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
     </div>
   </div>
 
-  <!-- ── FORTÉ MARKET ENTRY STRATEGY ──────────────────────────────────────── -->
-  <div style="margin-top:2.5rem;border-top:1px solid rgba(255,255,255,.06);padding-top:2.5rem;">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:#f59e0b;margin-bottom:.5rem;">Market Entry Strategy · Three Plays</div>
-    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:900;color:#e8f0ff;margin-bottom:.3rem;">FORTÉ</h3>
-    <div style="font-size:.95rem;color:#f59e0b;font-weight:600;margin-bottom:.5rem;">Co-sell. Subcontract. Compete. All three are on the table.</div>
-    <p style="font-size:.85rem;color:#5a7090;line-height:1.75;margin-bottom:1.75rem;">FORTÉ (formerly AVI Systems) is the #1 AV integrator in North America — $576M revenue, 42 US locations, 1,500 employee-owners, deep Chicago F500 relationships. They transform rooms with screens. What they can't do is the physical branded environment surrounding the technology. That's Foxmark's opening — and it works three different ways.</p>
-
-    <!-- Three plays -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;">
-
-      <!-- Play 1: Co-sell -->
-      <div style="background:rgba(20,184,166,.05);border:1px solid rgba(20,184,166,.2);padding:1.25rem;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#14b8a6;margin-bottom:.6rem;">Play 1 · Co-Sell</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;color:#e8f0ff;margin-bottom:.6rem;">Mutual Referral</div>
-        <div style="font-size:.82rem;color:#5a7090;line-height:1.65;">FORTÉ walks into a Chicago F500 for AV. Client asks about the walls, floor, lobby graphics. FORTÉ refers Foxmark and expands their own scope. Foxmark does the same in reverse when environmental graphics clients need AV.</div>
-        <div style="margin-top:.8rem;font-size:.78rem;color:#14b8a6;font-weight:600;">Win-win. Low friction to start.</div>
-      </div>
-
-      <!-- Play 2: Subcontract -->
-      <div style="background:rgba(90,171,255,.05);border:1px solid rgba(90,171,255,.2);padding:1.25rem;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#5aabff;margin-bottom:.6rem;">Play 2 · Subcontract</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;color:#e8f0ff;margin-bottom:.6rem;">FORTÉ Subs Foxmark</div>
-        <div style="font-size:.82rem;color:#5a7090;line-height:1.65;">Client wants a complete space. FORTÉ owns the client relationship and subs Foxmark for the physical environment. Foxmark gets access to accounts — Chase, Walgreens, United — it would take years to build into cold.</div>
-        <div style="margin-top:.8rem;font-size:.78rem;color:#5aabff;font-weight:600;">Foxmark gets in the room. Fast.</div>
-      </div>
-
-      <!-- Play 3: Compete -->
-      <div style="background:rgba(200,16,46,.05);border:1px solid rgba(200,16,46,.2);padding:1.25rem;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#C8102E;margin-bottom:.6rem;">Play 3 · Compete</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;color:#e8f0ff;margin-bottom:.6rem;">Out-Scope Them</div>
-        <div style="font-size:.82rem;color:#5a7090;line-height:1.65;">When a client wants a complete branded environment and calls FORTÉ first, FORTÉ has to stop at the screen. Foxmark can deliver the full space — physical <em>and</em> digital layer — by partnering with a different AV integrator. Complete scope beats partial scope.</div>
-        <div style="margin-top:.8rem;font-size:.78rem;color:#C8102E;font-weight:600;">Foxmark wins the whole job.</div>
-      </div>
-    </div>
-
-    <!-- The reality check -->
-    <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);padding:1.25rem;margin-bottom:1rem;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a5070;margin-bottom:.75rem;">What FORTÉ Can't Do</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-        <div style="font-size:.82rem;color:#5a7090;line-height:1.7;">
-          FORTÉ installs a $250K video wall in a Walgreens regional HQ lobby.<br>
-          The wall behind it? Bare drywall.<br>
-          The floor, windows, wayfinding? Untouched.<br>
-          <strong style="color:#9096a8;">Their scope ends at the bezel.</strong>
-        </div>
-        <div style="font-size:.82rem;color:#5a7090;line-height:1.7;">
-          Foxmark wraps the entire environment around it — murals, window film, floor graphics, dimensional brand marks — so the space tells a complete story.<br>
-          <strong style="color:#9096a8;">No Chicago competitor does both.</strong>
-        </div>
-      </div>
-    </div>
-
-    <div style="background:rgba(245,158,11,.04);border-left:4px solid #f59e0b;padding:.85rem 1.25rem;font-size:.88rem;color:#9096a8;line-height:1.6;">
-      <span style="color:#f59e0b;font-weight:600;">Bottom Line:</span> The goal isn't necessarily to make FORTÉ a partner. The goal is to get inside their accounts — by whatever route opens first. Co-sell if they're willing. Subcontract if they need help. Compete directly if the opportunity is there.
-    </div>
-  </div>
-
   <div id="modal-partner" class="modal-content" style="display:none;padding:3rem;">
     <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:#14b8a6;margin-bottom:.75rem;">Channel Partner Network — Installation &amp; Co-Sell</div>
     <h2 style="font-size:2.2rem;margin-bottom:.4rem;">Installation &amp; Trade Partners</h2>
@@ -2431,75 +2411,13 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
     </div>
   </div>
 
-  <div id="modal-downloads" class="modal-content" style="display:none;padding:3rem;">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:#8A8A8A;margin-bottom:.75rem;">Source Documents</div>
-    <h2 style="font-size:2.5rem;margin-bottom:1.5rem;">Download the<br><em>Original Files.</em></h2>
-    <div style="display:flex;flex-direction:column;gap:1rem;max-width:560px;">
-      <div onclick="dlFile('playbook')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:1.5rem;display:flex;align-items:center;gap:1.5rem;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
-        <div style="font-size:2.5rem;">📋</div>
-        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;">Master Project Playbook</div><div style="font-size:.85rem;color:#8A8A8A;margin-top:.15rem;">Word Document (.docx) &middot; Complete studio strategy</div></div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;color:#C8102E;white-space:nowrap;">&#11015; Download</div>
-      </div>
-      <div onclick="dlFile('model')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:1.5rem;display:flex;align-items:center;gap:1.5rem;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
-        <div style="font-size:2.5rem;">💹</div>
-        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;">Financial Model + Playbook Tables</div><div style="font-size:.85rem;color:#8A8A8A;margin-top:.15rem;">Excel Spreadsheet (.xlsx) &middot; Full P&amp;L and KPI model</div></div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;color:#22c55e;white-space:nowrap;">&#11015; Download</div>
-      </div>
-      <div onclick="dlFile('deck')" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:1.5rem;display:flex;align-items:center;gap:1.5rem;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='#4a9eff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">
-        <div style="font-size:2.5rem;">📊</div>
-        <div style="flex:1;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;">Executive Decision Deck</div><div style="font-size:.85rem;color:#8A8A8A;margin-top:.15rem;">PowerPoint (.pptx) &middot; Model-aligned executive presentation</div></div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.85rem;color:#4a9eff;white-space:nowrap;">&#11015; Download</div>
-      </div>
+  <div id="modal-competitive" class="modal-content" style="display:none;padding:0;">
+    <div style="padding:2.5rem 3rem 2rem;background:linear-gradient(135deg,#0d1829 0%,#141d2e 100%);border-bottom:1px solid rgba(200,16,46,0.2);">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;color:#C8102E;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;"><span style="width:2rem;height:1px;background:#C8102E;display:inline-block;flex-shrink:0;"></span>Competitive Intelligence · Chicago Metro</div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(2rem,3vw,2.8rem);text-transform:uppercase;line-height:.95;margin-bottom:1rem;">Where Foxmark<br><em style="color:#C8102E;">Wins</em> the Room.</h2>
+      <p style="font-size:.9rem;line-height:1.75;color:#6e8aaa;max-width:560px;"><strong style="color:#e8f0ff;">14 competitors</strong> in the Chicagoland commercial graphics market mapped across six capability dimensions. Foxmark is the only player delivering integrated branded environments, rapid in-house production, eco-certified materials, and program-level rollout management from a single local Chicago studio.</p>
     </div>
-  </div>
-
-</div><!-- end modal-box -->
-</div><!-- end modal-overlay -->
-
-<!-- CONTACT -->
-
-
-<section class="section section-alt" id="contact-section" style="background:#111a28;">
-  <div class="section-label">Get In Touch</div>
-  <div class="contact-wrap">
-    <div>
-      <h2>Let's Build<br>Something <em>Remarkable</em><br>in Chicago.</h2>
-      <p style="font-size:0.9rem; color:var(--silver); line-height:1.8; margin-bottom:2.5rem; max-width:420px;">Whether you're planning a single flagship interior or a multi-site Chicagoland rollout, the Foxmark team is ready to scope your project and deliver a tailored enterprise proposal.</p>
-      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Foxmark HQ</div><div class="ci-val">21601 Park Row Drive, Katy, TX 77449</div></div></div>
-      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Phone</div><div class="ci-val">713.686.8300</div></div></div>
-      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Email</div><div class="ci-val"><a href="mailto:rick@foxmark.com" style="color:#5aabff;">rick@foxmark.com</a></div></div></div>
-      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Chicago Studio</div><div class="ci-val">Elmhurst Area &middot; Opening Soon</div></div></div>
-    </div>
-    <form class="contact-form" onsubmit="event.preventDefault(); this.innerHTML='<div style=\'padding:3rem; text-align:center;\'><div style=\'font-family:Barlow Condensed,sans-serif; font-weight:900; font-size:2rem; text-transform:uppercase; color:var(--red); margin-bottom:1rem;\'>Message Received.</div><p style=\'color:var(--silver); font-size:0.9rem;\'>The Foxmark Chicago team will be in touch shortly.</p></div>'">
-      <div class="form-row"><div class="form-group"><label class="form-label">First Name *</label><input class="form-input" type="text" placeholder="Jane" required></div><div class="form-group"><label class="form-label">Last Name *</label><input class="form-input" type="text" placeholder="Smith" required></div></div>
-      <div class="form-group"><label class="form-label">Company *</label><input class="form-input" type="text" placeholder="Acme Corporation" required></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Email *</label><input class="form-input" type="email" placeholder="jane@acmecorp.com" required></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" placeholder="312-555-0100"></div></div>
-      <div class="form-group"><label class="form-label">Primary Interest</label><select class="form-select form-input"><option value="">Select a service area...</option><option>Premium Wall Murals (PVC-Free)</option><option>Glass &amp; Window Branding</option><option>Floor Graphics &amp; Wayfinding Kits</option><option>Rigid Interior Signage Kits</option><option>Fleet &amp; Vehicle Wraps</option><option>Tradeshow &amp; Exhibit (McCormick Place)</option><option>Multi-Site Enterprise Rollout</option><option>Eco-Sustainable Branding Program</option></select></div>
-      <div class="form-group"><label class="form-label">Project Description</label><textarea class="form-textarea" placeholder="Scope, timeline, number of locations, or any questions..."></textarea></div>
-      <button type="submit" class="btn btn-red" style="width:100%; padding:1.1rem;">Send Message &rarr;</button>
-    </form>
-  </div>
-</section>
-
-<footer>
-  <div><div class="footer-logo">FOX<span>MARK</span></div><div class="footer-sub">Chicago Studio Laboratory</div></div>
-  <div class="footer-note">&copy; 2025 Foxmark Corporation &middot; teamfoxmark.com &middot; Confidential</div>
-  <div class="footer-links"><a href="https://teamfoxmark.com" target="_blank">teamfoxmark.com</a><span onclick="showPage('rick')" style="cursor:pointer;">Rick Krohn</span><span onclick="showPage('competitive')" style="cursor:pointer; margin-left:1.5rem;">Competitive</span></div>
-</footer>
-</div><!-- end page-main -->
-
-
-<!-- ══════════════════════════════════════
-     PAGE 2: COMPETITIVE
-══════════════════════════════════════ -->
-<div class="page" id="page-competitive">
-<div class="page-header">
-  <div class="ph-inner anim">
-    <div class="eyebrow">Competitive Intelligence · Chicago Metro</div>
-    <h1>Where Foxmark<br><em>Wins</em> the Room.</h1>
-    <p style="font-size:1rem;line-height:1.75;color:var(--silver);max-width:600px;"><strong style="color:var(--white);">14 competitors</strong> in the Chicagoland commercial graphics market mapped across six capability dimensions. Foxmark is the only player delivering integrated branded environments, rapid in-house production, eco-certified materials, and program-level rollout management from a single local Chicago studio.</p>
-  </div>
-</div>
+    <div style="padding:2.5rem 3rem;">
 
 <!-- DEEP DIVES: four verified Chicago competitors -->
 <section class="section section-alt">
@@ -2616,17 +2534,6 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
           <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#C8102E" opacity=".3"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#C8102E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#C8102E" opacity=".15"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#C8102E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           <td style="font-size:.78rem;padding:.55rem .8rem;line-height:1.5;border-bottom:1px solid rgba(255,255,255,.04);"><strong style="color:#fff;">Integrated environments · eco standard · local studio + HQ scale</strong></td>
-        </tr>
-        <!-- FORTE PARTNER -->
-        <tr style="background:rgba(20,184,166,.04);border-left:3px solid #14b8a6;">
-          <td style="padding:.55rem .8rem;border-bottom:1px solid rgba(255,255,255,.04);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:#14b8a6;">FORTÉ <span style="font-size:.58rem;background:#14b8a630;color:#14b8a6;border:1px solid #14b8a640;padding:.1rem .4rem;border-radius:2px;margin-left:.4rem;">PARTNER</span></div><div style="font-size:.68rem;color:#2a4050;margin-top:.1rem;">AV Partner · formerly AVI Systems · Chicago</div></td>
-          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
-          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
-          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
-          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#14b8a6" opacity=".15"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#14b8a6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
-          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
-          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#14b8a6" opacity=".3"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#14b8a6" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
-          <td style="font-size:.78rem;padding:.55rem .8rem;line-height:1.5;border-bottom:1px solid rgba(255,255,255,.04);"><span style="color:#4a6070">$576M AV integrator · #1 in North America · F500 Chicago clients · Foxmark handles the physical environment they wrap their screens in</span></td>
         </tr>
 
         <tr><td colspan="8" style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2a4050;padding:.5rem .8rem;background:rgba(255,255,255,.02);">TIER 1 — Full-Service / Strongest Competitors</td></tr>
@@ -2827,13 +2734,48 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
   </div>
 </section>
 
+    </div><!-- end inner padding div -->
+  </div><!-- end modal-competitive -->
+
+</div><!-- end modal-box -->
+</div><!-- end modal-overlay -->
+
+<!-- CONTACT -->
+
+
+<section class="section section-alt" id="contact-section" style="background:#111a28;">
+  <div class="section-label">Get In Touch</div>
+  <div class="contact-wrap">
+    <div>
+      <h2>Let's Build<br>Something <em>Remarkable</em><br>in Chicago.</h2>
+      <p style="font-size:0.9rem; color:var(--silver); line-height:1.8; margin-bottom:2.5rem; max-width:420px;">Whether you're planning a single flagship interior or a multi-site Chicagoland rollout, the Foxmark team is ready to scope your project and deliver a tailored enterprise proposal.</p>
+      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Foxmark HQ</div><div class="ci-val">21601 Park Row Drive, Katy, TX 77449</div></div></div>
+      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Phone</div><div class="ci-val">713.686.8300</div></div></div>
+      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#c5b7aca6ae85a3aabda8a4b7aeeba6aaa8" style="color:#5aabff;"><span class="__cf_email__" data-cfemail="d4a6bdb7bf94b2bbacb9b5a6bffab7bbb9">[email&#160;protected]</span></a></div></div></div>
+      <div class="ci-item"><div class="ci-line"></div><div><div class="ci-label">Chicago Studio</div><div class="ci-val">Elmhurst Area &middot; Opening Soon</div></div></div>
+    </div>
+    <form class="contact-form" onsubmit="event.preventDefault(); this.innerHTML='<div style=\'padding:3rem; text-align:center;\'><div style=\'font-family:Barlow Condensed,sans-serif; font-weight:900; font-size:2rem; text-transform:uppercase; color:var(--red); margin-bottom:1rem;\'>Message Received.</div><p style=\'color:var(--silver); font-size:0.9rem;\'>The Foxmark Chicago team will be in touch shortly.</p></div>'">
+      <div class="form-row"><div class="form-group"><label class="form-label">First Name *</label><input class="form-input" type="text" placeholder="Jane" required></div><div class="form-group"><label class="form-label">Last Name *</label><input class="form-input" type="text" placeholder="Smith" required></div></div>
+      <div class="form-group"><label class="form-label">Company *</label><input class="form-input" type="text" placeholder="Acme Corporation" required></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Email *</label><input class="form-input" type="email" placeholder="jane@acmecorp.com" required></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" placeholder="312-555-0100"></div></div>
+      <div class="form-group"><label class="form-label">Primary Interest</label><select class="form-select form-input"><option value="">Select a service area...</option><option>Premium Wall Murals (PVC-Free)</option><option>Glass &amp; Window Branding</option><option>Floor Graphics &amp; Wayfinding Kits</option><option>Rigid Interior Signage Kits</option><option>Fleet &amp; Vehicle Wraps</option><option>Tradeshow &amp; Exhibit (McCormick Place)</option><option>Multi-Site Enterprise Rollout</option><option>Eco-Sustainable Branding Program</option></select></div>
+      <div class="form-group"><label class="form-label">Project Description</label><textarea class="form-textarea" placeholder="Scope, timeline, number of locations, or any questions..."></textarea></div>
+      <button type="submit" class="btn btn-red" style="width:100%; padding:1.1rem;">Send Message &rarr;</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div><div class="footer-logo">FOX<span>MARK</span></div><div class="footer-sub">Chicago Studio Laboratory</div></div>
+  <div class="footer-note">&copy; 2025 Foxmark Corporation &middot; teamfoxmark.com &middot; Confidential</div>
+  <div class="footer-links"><a href="https://teamfoxmark.com" target="_blank">teamfoxmark.com</a><span onclick="showPage('rick')" style="cursor:pointer;">Rick Krohn</span></div>
+</footer>
+</div><!-- end page-main -->
+
+
 <div id="page-rick">
 
 <section class="bio-hero">
-  <div class="bio-photo">
-    <div class="monogram">RK</div>
-    <div class="photo-tag">Chicago's Enterprise Sales Veteran</div>
-  </div>
   <div class="bio-right anim">
     <div class="eyebrow">Foxmark Chicago &middot; Sales Leadership</div>
     <h1>Rick<br>Krohn</h1>
@@ -2841,7 +2783,7 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
     <div class="hero-tagline">He doesn&apos;t need to build a territory.<br><em>He already owns one.</em></div>
     <p style="font-size:0.95rem; line-height:1.75; font-weight:300; color:var(--silver); max-width:460px; margin-bottom:2.5rem;">Nearly <strong style="color:var(--white);">30 years of enterprise sales</strong> across Chicago and the Midwest. Thomson Reuters. Trading Technologies. Verizon. Lumen. Deep relationships inside the same Fortune 500 companies that are Foxmark&apos;s ideal customers.</p>
     <div class="hero-actions">
-      <a href="/cdn-cgi/l/email-protection#98eaf1fbf3f3eaf7f0f6d8fff5f9f1f4b6fbf7f5" class="btn btn-red">rick@foxmark.com</a>
+      <a href="/cdn-cgi/l/email-protection#98eaf1fbf3f3eaf7f0f6d8fff5f9f1f4b6fbf7f5" class="btn btn-red"><span class="__cf_email__" data-cfemail="0e7c676d654e686176636f7c65206d6163">[email&#160;protected]</span></a>
       <a href="https://www.linkedin.com/in/rick-k" target="_blank" class="btn btn-outline">LinkedIn Profile</a>
     </div>
     <div class="bio-stats">
@@ -2863,7 +2805,6 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
       <div style="font-size:0.9rem; line-height:1.8; color:var(--silver);">
         <p style="margin-bottom:1.25rem;">Foxmark transforms corporate interiors, retail spaces, fleet graphics, and trade show exhibits into powerful brand experiences for Fortune 500 companies. <strong style="color:var(--white);">Rick Krohn has spent nearly 30 years selling enterprise solutions across the Chicago and Midwest market.</strong></p>
         <p style="margin-bottom:1.25rem;">His career reads like a who&apos;s who of Chicago enterprise sales &mdash; Thomson Reuters, Trading Technologies, SunGard, Verizon, and Lumen &mdash; building deep relationships across financial services, corporate headquarters, and major enterprise accounts. <strong style="color:var(--white);">Those same companies are Foxmark&apos;s ideal customers.</strong></p>
-        <p style="margin-bottom:1.25rem;">Think of what Fort&eacute; has built in Chicago&apos;s AV and digital signage space &mdash; decades of trusted enterprise relationships that keep Fortune 500 clients coming back for every campus, every build-out, every renovation. <strong style="color:var(--white);">Rick is positioned to do exactly that for Foxmark in commercial graphics.</strong></p>
         <p>He&apos;s already in the boardrooms. He already has the trust. He understands solution selling, national program management, and navigating complex enterprise procurement cycles &mdash; skills that translate directly to selling Foxmark&apos;s end-to-end graphics, interior, and installation programs.</p>
       </div>
     </div>
@@ -2873,18 +2814,6 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
       <div class="value-card"><div class="vc-title"><span>🌐</span> National Program Experience</div><div class="vc-body">Rick understands how to <strong>originate a program in Chicago and scale it nationally</strong> &mdash; precisely the hub-and-spoke model Foxmark is building.</div></div>
       <div class="value-card"><div class="vc-title"><span>🏆</span> Proven Performance Record</div><div class="vc-body">$670K on a $600K quota at Firm58. Top 3 ranking at Dow Jones against 12 peers. <strong>Consistent overperformance</strong> across finance, tech, and enterprise communications.</div></div>
     </div>
-  </div>
-</section>
-
-<!-- FORTE PARALLEL -->
-<section class="section">
-  <div class="section-label">The Parallel</div>
-  <h2>What Fort&eacute; Built in AV.<br><em>What Rick Builds</em> in Graphics.</h2>
-  <p style="font-size:0.9rem; color:var(--silver); line-height:1.75; max-width:620px; margin-bottom:3rem;">Fort&eacute; (formerly AVI Systems) is Chicago&apos;s premier AV systems integrator &mdash; selling enterprise visual solutions to the same Fortune 500s Foxmark serves. Both companies sell premium, project-based visual solutions through trusted enterprise relationships. Rick is that bridge for Foxmark.</p>
-  <div class="parallel-grid">
-    <div class="parallel-card"><div class="pc-brand">Fort&eacute; / AVI Systems</div><div class="pc-sub-label">AV Systems Integrator &middot; Chicago Enterprise</div><ul class="pc-list"><li>Enterprise AV and digital signage for Fortune 500 campuses</li><li>Project-based, consultative solution selling</li><li>Multi-site corporate installations and rollouts</li><li>Trusted advisor relationships built over decades</li><li>Long procurement cycles, complex stakeholder management</li></ul></div>
-    <div><div class="para-mid">&#8594;</div><div class="para-mid-lbl">Same Buyers.<br>Same Model.</div></div>
-    <div class="parallel-card fox"><div class="pc-brand red">Foxmark Chicago</div><div class="pc-sub-label">Commercial Graphics &amp; Branded Interiors</div><ul class="pc-list"><li>Enterprise branded interiors and visual programs for Fortune 500s</li><li>Project-based, design-led solution selling</li><li>Multi-site national rollouts via Chicago + HQ hub-and-spoke</li><li>Trusted advisor relationships &mdash; Rick&apos;s existing network</li><li>Long procurement cycles, multi-stakeholder enterprise sales</li></ul></div>
   </div>
 </section>
 
@@ -2931,18 +2860,17 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
 <footer>
   <div><div class="footer-logo">FOX<span>MARK</span></div><div class="footer-sub">Rick Krohn &middot; Sales Leadership</div></div>
   <div class="footer-note">&copy; 2025 Foxmark Corporation &middot; teamfoxmark.com</div>
-  <div class="footer-links"><a onclick="showPage('main')" style="cursor:pointer;">Main Site</a><a onclick="showPage('competitive')" style="cursor:pointer;">Competitive</a><a href="/cdrick@foxmark.com</a></div>
+  <div class="footer-links"><a onclick="showPage('main')" style="cursor:pointer;">Main Site</a><a href="/cdrick@foxmark.com</a></div>
 </footer>
 </div><!-- end page-rick -->
 
 <!-- ═══ BOTTOM NAV (shows on narrow screens) ═══ -->
 <div id="bnav" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0d1b2e;border-top:2px solid #C8102E;flex-direction:row;">
   <button id="bn-main"        onclick="showPage('main')"        style="flex:1;padding:0.85rem 4px;background:rgba(200,16,46,0.2);border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;cursor:pointer;">&#127970; Studio</button>
-  <button id="bn-competitive" onclick="showPage('competitive')" style="flex:1;padding:0.85rem 4px;background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;color:#8A8A8A;cursor:pointer;">&#128202; Competitive</button>
   <button id="bn-rick"        onclick="showPage('rick')"        style="flex:1;padding:0.85rem 4px;background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;color:#8A8A8A;cursor:pointer;">&#128100; Rick Krohn</button>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── MODAL SYSTEM ─────────────────────────────────────────
 function openModal(id) {
   var overlay = document.getElementById('modal-overlay');
@@ -2960,7 +2888,7 @@ function closeModal() {
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
 
 // ── PAGE NAVIGATION ───────────────────────────────────────
-var PAGES = ['main','competitive','rick'];
+var PAGES = ['main','rick'];
 
 function showPage(name) {
   PAGES.forEach(function(p) {
@@ -3004,8 +2932,7 @@ function dlFile(key) {
 
 // ── INIT ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() { try {
-  // Hide pages 2+3 via inline style (overrides CSS)
-  document.getElementById('page-competitive').style.display = 'none';
+  // Hide page-rick via inline style (overrides CSS)
   document.getElementById('page-rick').style.display = 'none';
   document.getElementById('page-main').style.display = 'block';
 
@@ -4441,24 +4368,20 @@ function initFinancialViz() {
   buildWaterfall();
 }
 
-// Re-init charts whenever market modal opens
+// Re-init charts whenever modals open
 var _origOpen = window.openModal;
 window.openModal = function(id) {
-  _origOpen(id);
+  if (_origOpen) _origOpen(id);
   if (id === 'modal-financial') {
-    setTimeout(initFinancialViz, 80);
+    setTimeout(initFinancialViz, 100);
   }
   if (id === 'modal-market') {
-    setTimeout(initMktCharts, 80);
-    setTimeout(initTierCards, 100);
+    setTimeout(function() {
+      initMktCharts();
+      initTierCards();
+    }, 100);
   }
 };
-
-
-  // iOS 300ms click delay fix
-  document.addEventListener('touchstart', function(){}, {passive: true});
 </script>
-
-
 </body>
 </html>
