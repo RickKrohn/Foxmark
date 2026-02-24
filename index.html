@@ -1004,8 +1004,8 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
 
   <!-- Label — muted by default -->
   <div style="position:relative;z-index:2;">
-    <div class="spot-label" style="font-family:'Barlow Condensed',sans-serif;font-size:1.35rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,.25);line-height:1.15;letter-spacing:.03em;transition:color .3s,font-size .3s;">Kraft Heinz<br>Case Study</div>
-    <div class="spot-meta" style="font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:transparent;margin-top:.5rem;transition:color .3s .08s;">$600M Rebrand · F500</div>
+    <div class="spot-label" style="font-family:'Barlow Condensed',sans-serif;font-size:1.35rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,.25);line-height:1.15;letter-spacing:.03em;transition:color .3s,font-size .3s;">Case<br>Studies</div>
+    <div class="spot-meta" style="font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:transparent;margin-top:.5rem;transition:color .3s .08s;">4 Sectors · F500 Anchors</div>
     <!-- CTA arrow — hidden until hover -->
     <div class="spot-cta" style="display:flex;align-items:center;gap:.4rem;margin-top:.9rem;opacity:0;transform:translateY(6px);transition:opacity .25s .1s,transform .25s .1s;">
       <span style="font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.14em;color:white;">OPEN</span>
@@ -2047,75 +2047,139 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
   </div>
 
   <div id="modal-casestudy" class="modal-content" style="display:none;padding:3rem;">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:#f59e0b;margin-bottom:.75rem;">Case Study — CPG Sector</div>
-    <h2 style="font-size:2.2rem;margin-bottom:.5rem;">Kraft Heinz</h2>
-    <div style="font-size:1rem;color:#22c55e;font-weight:600;margin-bottom:1.75rem;">$600M Turnaround = Foxmark Opportunity.</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;color:#f59e0b;margin-bottom:.5rem;">Target Account Case Studies</div>
+    <h2 style="font-size:2.2rem;margin-bottom:.4rem;">Four Sectors.<br><em style="color:#f59e0b;">Four Foxmark Entry Points.</em></h2>
+    <div style="font-size:.9rem;color:#9096a8;line-height:1.6;margin-bottom:2rem;">Each represents a sector archetype — not a pitch, a pattern. The same playbook wins across all four.</div>
 
-    <!-- CONTEXT -->
-    <div style="background:rgba(245,158,11,.05);border-left:4px solid #f59e0b;padding:1rem 1.25rem;margin-bottom:2rem;font-size:.82rem;color:#b8c0d4;line-height:1.7;">
-      In February 2026, Kraft Heinz paused its planned corporate split, opting instead to invest $600M in marketing, R&amp;D, and sales to revitalize brands. This pivot creates significant opportunity for Foxmark's retail display and branded interior expertise.
+    <!-- CASE STUDY TABS -->
+    <div style="display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.5rem;" id="cs-tabs">
+      <button onclick="csTab('kh')" id="cstab-kh" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;background:#f59e0b;color:#000;border:none;padding:.3rem .85rem;cursor:pointer;">Kraft Heinz</button>
+      <button onclick="csTab('mc')" id="cstab-mc" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:none;padding:.3rem .85rem;cursor:pointer;">McDonald's HQ</button>
+      <button onclick="csTab('ua')" id="cstab-ua" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:none;padding:.3rem .85rem;cursor:pointer;">United Airlines</button>
+      <button onclick="csTab('al')" id="cstab-al" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.07);color:#8A8A8A;border:none;padding:.3rem .85rem;cursor:pointer;">Allstate</button>
     </div>
 
-    <!-- $600M BREAKDOWN -->
-    <div style="margin-bottom:2rem;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.2em;text-transform:uppercase;color:#f59e0b;margin-bottom:1rem;">The $600M Investment Breakdown</div>
-      <div style="display:flex;flex-direction:column;gap:.5rem;">
-        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;background:#162d48;padding:.85rem 1rem;border-left:3px solid #4a9eff;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:#4a9eff;width:80px;">Marketing</div>
-          <div style="font-size:.85rem;color:#9096a8;">Brand storytelling and consumer outreach — Foxmark's retail displays directly amplify this spend</div>
-          <div style="font-size:.82rem;color:#22c55e;font-weight:600;white-space:nowrap;">✓ Direct fit</div>
-        </div>
-        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;background:#162d48;padding:.85rem 1rem;border-left:3px solid #22c55e;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:#22c55e;width:80px;">R&amp;D</div>
-          <div style="font-size:.85rem;color:#9096a8;">New product lines &amp; sustainable packaging — Foxmark's eco-material expertise aligns perfectly</div>
-          <div style="font-size:.82rem;color:#22c55e;font-weight:600;white-space:nowrap;">✓ Eco align</div>
-        </div>
-        <div style="display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;background:#162d48;padding:.85rem 1rem;border-left:3px solid #a855f7;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;color:#a855f7;width:80px;">Sales</div>
-          <div style="font-size:.85rem;color:#9096a8;">Point-of-sale effectiveness — in-store displays drive 20–30% sales lift</div>
-          <div style="font-size:.82rem;color:#22c55e;font-weight:600;white-space:nowrap;">✓ POS win</div>
-        </div>
+    <div id="cs-content">
+
+    <!-- KRAFT HEINZ -->
+    <div id="cs-kh">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);padding:.3rem .7rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#f59e0b;">CPG · RETAIL DISPLAY</div>
+        <div style="font-size:.82rem;color:#5a6880;">Chicago HQ · 200 E. Randolph</div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;color:#f0f4ff;margin-bottom:.2rem;">Kraft Heinz — $600M Turnaround</div>
+      <div style="font-size:.95rem;color:#22c55e;font-weight:600;margin-bottom:1.25rem;">$600M reinvestment = retail visual overhaul Foxmark is built for.</div>
+      <div style="background:rgba(245,158,11,.05);border-left:4px solid #f59e0b;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:.82rem;color:#b8c0d4;line-height:1.7;">In February 2026, Kraft Heinz paused its planned split and committed $600M to marketing, R&amp;D, and sales to revitalize brands. Retail display is a direct beneficiary — and Foxmark's Chicago proximity to their 200 E. Randolph HQ is an immediate relationship advantage.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.5rem;">
+        <div style="background:#162d48;border-top:2px solid #22c55e;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#22c55e;">18%</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Sales lift in display test markets</div></div>
+        <div style="background:#162d48;border-top:2px solid #4a9eff;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#4a9eff;">$5–10M</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Annual Foxmark revenue potential</div></div>
+        <div style="background:#162d48;border-top:2px solid #f59e0b;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#f59e0b;">Multi-yr</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Contract potential at scale</div></div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;margin-bottom:.6rem;">Foxmark's Role</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem;">
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#f59e0b;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Modular retail displays for "Global Taste Elevation" lines</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#f59e0b;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Themed zones in Walmart/Kroger for product education</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#f59e0b;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Fleet wraps turning delivery vehicles into brand assets</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#22c55e;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Eco-certified materials aligned to their sustainability R&amp;D</div></div>
+      </div>
+      <div style="background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.2);padding:.8rem 1rem;font-size:.82rem;color:#9096a8;line-height:1.6;"><span style="color:#22c55e;font-weight:600;">Why Foxmark wins:</span> Speed, eco-certification, and Chicago studio proximity to HQ. Not just a sign shop — a brand environment partner who can move at marketing velocity.</div>
+    </div>
+
+    <!-- McDONALD'S HQ -->
+    <div id="cs-mc" style="display:none;">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div style="background:rgba(200,16,46,.1);border:1px solid rgba(200,16,46,.3);padding:.3rem .7rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;">CORPORATE HQ · WORKPLACE</div>
+        <div style="font-size:.82rem;color:#5a6880;">Chicago HQ · 110 N. Carpenter St. (Fulton Market)</div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;color:#f0f4ff;margin-bottom:.2rem;">McDonald's Global HQ</div>
+      <div style="font-size:.95rem;color:#C8102E;font-weight:600;margin-bottom:1.25rem;">Foxmark's #1 anchor target. Walking distance from the studio.</div>
+      <div style="background:rgba(200,16,46,.05);border-left:4px solid #C8102E;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:.82rem;color:#b8c0d4;line-height:1.7;">McDonald's relocated its global HQ to Fulton Market in 2018 — a deliberately open, brand-forward workplace designed to attract tech talent. The 600,000 sq ft campus features extensive branded environments throughout. Every workspace refresh, every new floor build-out, every seasonal campaign activation is a Foxmark opportunity. The CMO and VP Facilities are the decision-makers.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.5rem;">
+        <div style="background:#162d48;border-top:2px solid #C8102E;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#C8102E;">600K</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Sq ft campus · ongoing refresh cycle</div></div>
+        <div style="background:#162d48;border-top:2px solid #4a9eff;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#4a9eff;">2 mi</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">From Foxmark studio · same-day capable</div></div>
+        <div style="background:#162d48;border-top:2px solid #22c55e;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#22c55e;">$160K+</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Year 1 anchor revenue target</div></div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;margin-bottom:.6rem;">Foxmark's Role</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem;">
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#C8102E;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Floor-to-ceiling branded wall systems for workspace zones</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#C8102E;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Seasonal campaign activations (sporting events, menu launches)</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#C8102E;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">New floor fit-outs during Fulton Market expansion phases</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#22c55e;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Eco-certified materials aligned to their sustainability commitments</div></div>
+      </div>
+      <div style="background:rgba(200,16,46,.04);border:1px solid rgba(200,16,46,.2);padding:.8rem 1rem;font-size:.82rem;color:#9096a8;line-height:1.6;"><span style="color:#C8102E;font-weight:600;">Entry strategy:</span> Studio Lab invite — bring their facilities team in for a walk-through and same-day proof of concept. McDonald's culture rewards fast, visual thinkers. Foxmark IS that.</div>
+    </div>
+
+    <!-- UNITED AIRLINES -->
+    <div id="cs-ua" style="display:none;">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div style="background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.3);padding:.3rem .7rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#4a9eff;">AVIATION · MULTI-SITE</div>
+        <div style="font-size:.82rem;color:#5a6880;">Chicago HQ · Willis Tower · O'Hare hub</div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;color:#f0f4ff;margin-bottom:.2rem;">United Airlines</div>
+      <div style="font-size:.95rem;color:#4a9eff;font-weight:600;margin-bottom:1.25rem;">HQ + O'Hare = a multi-site rollout machine.</div>
+      <div style="background:rgba(74,158,255,.05);border-left:4px solid #4a9eff;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:.82rem;color:#b8c0d4;line-height:1.7;">United's global HQ sits at Willis Tower with 100,000+ employees and a campus that undergoes continuous brand refresh. O'Hare is one of the world's busiest airports with terminal branding, gate graphics, and club environments updated regularly. Chicago-based studio proximity enables fast proofing, same-day changes, and on-site coordination that national vendors can't match.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.5rem;">
+        <div style="background:#162d48;border-top:2px solid #4a9eff;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#4a9eff;">100K+</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Employees · global HQ footprint</div></div>
+        <div style="background:#162d48;border-top:2px solid #f59e0b;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#f59e0b;">2 hubs</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Willis Tower + O'Hare Terminal</div></div>
+        <div style="background:#162d48;border-top:2px solid #22c55e;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#22c55e;">$240K</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Year 2 anchor revenue target</div></div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;margin-bottom:.6rem;">Foxmark's Role</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem;">
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#4a9eff;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Willis Tower HQ workspace refresh — floor wraps, wall systems, wayfinding</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#4a9eff;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">O'Hare terminal gate graphics and United Club brand updates</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#4a9eff;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Training facility and employee-facing environmental branding</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#22c55e;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Rapid-swap seasonal and campaign graphics — speed advantage over nationals</div></div>
+      </div>
+      <div style="background:rgba(74,158,255,.04);border:1px solid rgba(74,158,255,.2);padding:.8rem 1rem;font-size:.82rem;color:#9096a8;line-height:1.6;"><span style="color:#4a9eff;font-weight:600;">Entry strategy:</span> Target VP Workplace Experience and VP Facilities. Lead with O'Hare gate refresh as a fast pilot — prove speed and quality, then expand to Willis Tower HQ campus.</div>
+    </div>
+
+    <!-- ALLSTATE -->
+    <div id="cs-al" style="display:none;">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);padding:.3rem .7rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#a855f7;">FINANCIAL SERVICES · REBRAND</div>
+        <div style="font-size:.82rem;color:#5a6880;">Northbrook, IL HQ · 2775 Sanders Rd · 300+ locations</div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.5rem;color:#f0f4ff;margin-bottom:.2rem;">Allstate Insurance</div>
+      <div style="font-size:.95rem;color:#a855f7;font-weight:600;margin-bottom:1.25rem;">300+ agent offices = a rollout program, not a one-off.</div>
+      <div style="background:rgba(168,85,247,.05);border-left:4px solid #a855f7;padding:.9rem 1.1rem;margin-bottom:1.5rem;font-size:.82rem;color:#b8c0d4;line-height:1.7;">Allstate completed a major rebrand in 2022–2023 and continues refreshing its agent office network across the Midwest. With 300+ Illinois locations and a Northbrook HQ campus, they represent exactly the multi-site rollout scenario where Foxmark's Chicago studio + HQ production model shines — pilot one office, prove the playbook, roll to the full network.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1.5rem;">
+        <div style="background:#162d48;border-top:2px solid #a855f7;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#a855f7;">300+</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">IL agent offices · rebrand cycle</div></div>
+        <div style="background:#162d48;border-top:2px solid #C8102E;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#C8102E;">18 mi</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Northbrook to Foxmark studio</div></div>
+        <div style="background:#162d48;border-top:2px solid #22c55e;padding:.9rem;text-align:center;"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;color:#22c55e;">$200K+</div><div style="font-size:.75rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;">Year 2 potential at 50 offices</div></div>
+      </div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:#C8102E;margin-bottom:.6rem;">Foxmark's Role</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:1.25rem;">
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#a855f7;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">HQ campus environmental branding — lobby, conference, executive floors</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#a855f7;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Agent office rebrand kit — modular, standardized, fast-install</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#a855f7;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Window graphics and exterior identification for retail-facing offices</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="width:4px;height:4px;background:#22c55e;flex-shrink:0;margin-top:.45rem;"></div><div style="font-size:.82rem;color:#9096a8;">Rollout logistics via HQ production — scale without adding vendors</div></div>
+      </div>
+      <div style="background:rgba(168,85,247,.04);border:1px solid rgba(168,85,247,.2);padding:.8rem 1rem;font-size:.82rem;color:#9096a8;line-height:1.6;"><span style="color:#a855f7;font-weight:600;">Entry strategy:</span> Approach VP Facilities or CMO with a pilot-office proposal. Show Foxmark's rebrand kit economics — per-unit cost drops sharply at 50+ locations. Allstate procurement responds to ROI math.</div>
+    </div>
+
+    </div><!-- end cs-content -->
+
+    <!-- PATTERN STRIP -->
+    <div style="margin-top:2rem;background:#0a1422;border:1px solid rgba(255,255,255,.07);padding:1.1rem 1.5rem;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:#4a9eff;margin-bottom:.75rem;">The Foxmark Anchor Playbook — Same Pattern, Every Sector</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;">
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="color:#C8102E;font-weight:900;font-size:.9rem;flex-shrink:0;">1</div><div style="font-size:.78rem;color:#b8c0d4;"><span style="color:#fff;font-weight:600;">Studio Lab invite</span> — walk the client through same-day proof of concept</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="color:#f59e0b;font-weight:900;font-size:.9rem;flex-shrink:0;">2</div><div style="font-size:.78rem;color:#b8c0d4;"><span style="color:#fff;font-weight:600;">Pilot one location</span> — document lift, speed, and brand alignment</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="color:#22c55e;font-weight:900;font-size:.9rem;flex-shrink:0;">3</div><div style="font-size:.78rem;color:#b8c0d4;"><span style="color:#fff;font-weight:600;">Present to brand team</span> — national scale story with Chicago speed advantage</div></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-start;"><div style="color:#a855f7;font-weight:900;font-size:.9rem;flex-shrink:0;">4</div><div style="font-size:.78rem;color:#b8c0d4;"><span style="color:#fff;font-weight:600;">Roll to network</span> — 10 → 50 → 100+ locations via HQ production</div></div>
       </div>
     </div>
 
-    <!-- PROJECTED OUTCOMES -->
-    <div style="margin-bottom:2rem;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.2em;text-transform:uppercase;color:#22c55e;margin-bottom:1rem;">Projected Pilot Outcomes · Q2 2026</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
-        <div style="background:#162d48;border:1px solid rgba(34,197,94,.2);border-top:2px solid #22c55e;padding:1rem;text-align:center;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;color:#22c55e;">18%</div>
-          <div style="font-size:.85rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;">Sales increase<br>test markets</div>
-        </div>
-        <div style="background:#162d48;border:1px solid rgba(74,158,255,.2);border-top:2px solid #4a9eff;padding:1rem;text-align:center;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;color:#4a9eff;">$5–10M</div>
-          <div style="font-size:.85rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;">Annual rev<br>for Foxmark</div>
-        </div>
-        <div style="background:#162d48;border:1px solid rgba(245,158,11,.2);border-top:2px solid #f59e0b;padding:1rem;text-align:center;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;color:#f59e0b;">20–30%</div>
-          <div style="font-size:.85rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;">In-store lift<br>from displays</div>
-        </div>
-        <div style="background:#162d48;border:1px solid rgba(168,85,247,.2);border-top:2px solid #a855f7;padding:1rem;text-align:center;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;color:#a855f7;">Multi-yr</div>
-          <div style="font-size:.85rem;color:#5a6880;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;">Contract<br>potential</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOXMARK ROLE -->
-    <div style="margin-bottom:1.5rem;">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.88rem;letter-spacing:.2em;text-transform:uppercase;color:#C8102E;margin-bottom:.75rem;">Foxmark's Proposed Role</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
-        <div style="display:flex;gap:.6rem;align-items:flex-start;"><div style="width:5px;height:5px;background:#C8102E;flex-shrink:0;margin-top:.4rem;"></div><div style="font-size:.85rem;color:#9096a8;">Brand audit of Kraft Heinz's retail visual footprint</div></div>
-        <div style="display:flex;gap:.6rem;align-items:flex-start;"><div style="width:5px;height:5px;background:#C8102E;flex-shrink:0;margin-top:.4rem;"></div><div style="font-size:.85rem;color:#9096a8;">Modular displays for "Global Taste Elevation" condiment lines</div></div>
-        <div style="display:flex;gap:.6rem;align-items:flex-start;"><div style="width:5px;height:5px;background:#C8102E;flex-shrink:0;margin-top:.4rem;"></div><div style="font-size:.85rem;color:#9096a8;">Fleet wraps turning delivery vehicles into promotional assets</div></div>
-        <div style="display:flex;gap:.6rem;align-items:flex-start;"><div style="width:5px;height:5px;background:#C8102E;flex-shrink:0;margin-top:.4rem;"></div><div style="font-size:.85rem;color:#9096a8;">Themed zones in Walmart/Kroger for product education</div></div>
-        <div style="display:flex;gap:.6rem;align-items:flex-start;grid-column:span 2;"><div style="width:5px;height:5px;background:#22c55e;flex-shrink:0;margin-top:.4rem;"></div><div style="font-size:.85rem;color:#9096a8;">Sustainable materials tying into eco R&amp;D investment</div></div>
-      </div>
-    </div>
-
-    <div style="background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.2);padding:.85rem 1.25rem;font-size:.88rem;color:#9096a8;line-height:1.6;">
-      <span style="color:#22c55e;font-weight:600;">Why Foxmark Wins Here:</span> Kraft Heinz needs a partner that can move fast, scale nationally, and align visuals with brand strategy — not just a sign shop. Foxmark's Chicago studio + HQ production is exactly that.
-    </div>
+    <script>
+    function csTab(key) {
+      ['kh','mc','ua','al'].forEach(function(k) {
+        var c = document.getElementById('cs-'+k);
+        var b = document.getElementById('cstab-'+k);
+        if (c) c.style.display = k===key ? 'block' : 'none';
+        if (b) { b.style.background = k===key ? '#f59e0b' : 'rgba(255,255,255,.07)'; b.style.color = k===key ? '#000' : '#8A8A8A'; }
+      });
+    }
+    </script>
   </div>
 
   <div id="modal-partner" class="modal-content" style="display:none;padding:3rem;">
@@ -2425,30 +2489,75 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
   <h2>What Chicago's<br><em>Top Rivals Reveal.</em></h2>
   <p class="intro-text">Four competitors studied in depth. Each reveals a strategic lesson that directly shapes the Foxmark Chicago Studio playbook and validates our model.</p>
   <div class="cases-grid">
-    <div class="case-card">
-      <div class="case-co">Cushing</div>
+
+    <!-- CUSHING -->
+    <div class="case-card" style="border-top:3px solid #4a9eff;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;right:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:4.5rem;line-height:1;color:rgba(74,158,255,0.04);letter-spacing:-.03em;pointer-events:none;padding:.2rem .4rem;">1929</div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;">
+        <div style="width:3px;height:1.4rem;background:#4a9eff;flex-shrink:0;"></div>
+        <div class="case-co" style="color:#4a9eff;">Cushing</div>
+      </div>
       <div class="case-tag-sm">Est. 1929 · Branded Environments · Chicago</div>
       <div class="case-lesson-title">Key Lesson</div>
-      <div class="case-body">Nearly a century of environmental graphics and branded environments work. Strong AEC client base — architects, contractors, corporations. <strong>Foxmark's advantage: faster production cycles, eco-certified materials, and AI-accelerated design they can't match.</strong> Cushing is the interior-focused competitor to watch most closely.</div>
+      <div class="case-body">
+        <div style="margin-top:.1rem;background:rgba(74,158,255,.06);border-left:3px solid #4a9eff;padding:.6rem .75rem;font-size:.82rem;line-height:1.55;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:#4a9eff;display:block;margin-bottom:.2rem;">Foxmark Advantage</span>
+          Faster production cycles, eco-certified materials, and AI-accelerated design they can't match. Cushing is the interior-focused competitor to watch most closely.
+        </div>
+      </div>
     </div>
-    <div class="case-card">
-      <div class="case-co">Parvin-Clauss</div>
+
+    <!-- PARVIN-CLAUSS -->
+    <div class="case-card" style="border-top:3px solid #f59e0b;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;right:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:4.5rem;line-height:1;color:rgba(245,158,11,0.04);letter-spacing:-.03em;pointer-events:none;padding:.2rem .4rem;">1952</div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;">
+        <div style="width:3px;height:1.4rem;background:#f59e0b;flex-shrink:0;"></div>
+        <div class="case-co" style="color:#f59e0b;">Parvin-Clauss</div>
+      </div>
       <div class="case-tag-sm">Est. 1952 · Exterior Signage · Maywood IL HQ</div>
       <div class="case-lesson-title">Key Lesson</div>
-      <div class="case-body">70+ year Chicago institution, family-owned, strong exterior fabrication and national programs. <strong>Primarily exterior-focused — limited interior branded environment capability.</strong> Validates Foxmark's interior-first positioning. Their maintenance program (Sign Armor) shows value of recurring revenue — a model to replicate.</div>
+      <div class="case-body">
+        <div style="margin-top:.1rem;background:rgba(245,158,11,.06);border-left:3px solid #f59e0b;padding:.6rem .75rem;font-size:.82rem;line-height:1.55;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:#f59e0b;display:block;margin-bottom:.2rem;">Foxmark Advantage</span>
+          Primarily exterior-focused — limited interior branded environment capability. Validates Foxmark's interior-first positioning. Their Sign Armor maintenance program proves recurring revenue value — a model to replicate.
+        </div>
+      </div>
     </div>
-    <div class="case-card">
-      <div class="case-co">SpeedPro Chicago Loop</div>
+
+    <!-- SPEEDPRO -->
+    <div class="case-card" style="border-top:3px solid #22c55e;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;right:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:3rem;line-height:1;color:rgba(34,197,94,0.04);letter-spacing:-.03em;pointer-events:none;padding:.2rem .4rem;">TOP 10%</div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;">
+        <div style="width:3px;height:1.4rem;background:#22c55e;flex-shrink:0;"></div>
+        <div class="case-co" style="color:#22c55e;">SpeedPro Chicago Loop</div>
+      </div>
       <div class="case-tag-sm">Top 10% Nationally · Franchise · Loop</div>
       <div class="case-lesson-title">Key Lesson</div>
-      <div class="case-body">Recovered from near-bankruptcy through consultative ROI-based selling and 60–75% margins on bundled services. <strong>Validates our phased go-to-market with pre-launch pilots and our margin targets.</strong> Their franchise model limits multi-site program management — Foxmark's HQ integration is a decisive advantage here.</div>
+      <div class="case-body">
+        <div style="margin-top:.1rem;background:rgba(34,197,94,.06);border-left:3px solid #22c55e;padding:.6rem .75rem;font-size:.82rem;line-height:1.55;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:#22c55e;display:block;margin-bottom:.2rem;">Foxmark Advantage</span>
+          Validates our phased go-to-market with pre-launch pilots and our margin targets. Their franchise model limits multi-site program management — Foxmark's HQ integration is a decisive advantage here.
+        </div>
+      </div>
     </div>
-    <div class="case-card">
-      <div class="case-co">Cima Network</div>
+
+    <!-- CIMA -->
+    <div class="case-card" style="border-top:3px solid #a855f7;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;right:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:3rem;line-height:1;color:rgba(168,85,247,0.04);letter-spacing:-.03em;pointer-events:none;padding:.2rem .4rem;">INC 5000</div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;">
+        <div style="width:3px;height:1.4rem;background:#a855f7;flex-shrink:0;"></div>
+        <div class="case-co" style="color:#a855f7;">Cima Network</div>
+      </div>
       <div class="case-tag-sm">Inc. 5000 · National Programs · Chicago Area</div>
       <div class="case-lesson-title">Key Lesson</div>
-      <div class="case-body">National rollout specialist — Topgolf, Pep Boys, Regal Entertainment. Full-service: fabrication, install, digital integration, maintenance. <strong>Their strength is large national programs; their gap is local Chicago responsiveness and eco-certified interior materials.</strong> A referral partner opportunity for overflow program work.</div>
+      <div class="case-body">
+        <div style="margin-top:.1rem;background:rgba(168,85,247,.06);border-left:3px solid #a855f7;padding:.6rem .75rem;font-size:.82rem;line-height:1.55;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:#a855f7;display:block;margin-bottom:.2rem;">Foxmark Advantage</span>
+          Their strength is large national programs; their gap is local Chicago responsiveness and eco-certified interior materials. A referral partner opportunity for overflow program work.
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -2534,6 +2643,18 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
           <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#C8102E" opacity=".3"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#C8102E" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#C8102E" opacity=".15"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#C8102E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           <td style="font-size:.78rem;padding:.55rem .8rem;line-height:1.5;border-bottom:1px solid rgba(255,255,255,.04);"><strong style="color:#fff;">Integrated environments · eco standard · local studio + HQ scale</strong></td>
+        </tr>
+
+        <!-- FORTE PARTNER -->
+        <tr style="background:rgba(20,184,166,.04);border-left:3px solid #14b8a6;">
+          <td style="padding:.55rem .8rem;border-bottom:1px solid rgba(255,255,255,.04);"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;color:#14b8a6;">FORTÉ <span style="font-size:.58rem;background:#14b8a630;color:#14b8a6;border:1px solid #14b8a640;padding:.1rem .4rem;border-radius:2px;margin-left:.4rem;">PARTNER</span></div><div style="font-size:.68rem;color:#2a4050;margin-top:.1rem;">AV Partner · formerly AVI Systems · Chicago</div></td>
+          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
+          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
+          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
+          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#14b8a6" opacity=".15"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#14b8a6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#ffffff" opacity=".05"/><line x1="8" y1="8" x2="16" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/><line x1="16" y1="8" x2="8" y2="16" stroke="#ffffff" stroke-width="1.5" opacity=".2" stroke-linecap="round"/></svg></td>
+          <td style="text-align:center;padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.04);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle"><circle cx="12" cy="12" r="11" fill="#14b8a6" opacity=".3"/><path d="M7 12.5l3.5 3.5 6-7" stroke="#14b8a6" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          <td style="font-size:.78rem;padding:.55rem .8rem;line-height:1.5;border-bottom:1px solid rgba(255,255,255,.04);"><span style="color:#4a6070;">$576M AV integrator · #1 in North America · F500 Chicago clients · Foxmark handles the physical environment they wrap their screens in</span></td>
         </tr>
 
         <tr><td colspan="8" style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#2a4050;padding:.5rem .8rem;background:rgba(255,255,255,.02);">TIER 1 — Full-Service / Strongest Competitors</td></tr>
@@ -2678,59 +2799,50 @@ footer { background: #080808; padding: 2.5rem 5rem; display: flex; justify-conte
 
 
 
-<!-- COMPETITOR PROFILES -->
-<section class="section">
-  <div class="section-label">Competitor Profiles</div>
-  <h2>Know Your Competition.<br><em>Know Your Edge.</em></h2>
-  <div class="profiles-grid">
-    <div class="profile-card">
-      <div class="comp-name">Cushing</div>
-      <div class="comp-tag">Est. 1929 · Chicago · Branded Environments</div>
-      <div class="comp-detail">Full-service branded environments and graphic installations since 1929. Strong in AEC (architects, contractors) and corporate signage. Murals, floor graphics, wall coverings, wayfinding.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Faster production, PVC-free eco standard, AI-accelerated design, HQ manufacturing backup.</div>
+<!-- ── FORTÉ MARKET ENTRY STRATEGY ─────────────────────────────────────── -->
+<section class="section section-alt" style="margin-top:0;">
+  <div class="section-label">Strategic Partner / Competitor</div>
+  <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:900;color:#e8f0ff;margin-bottom:.3rem;">FORTÉ</h2>
+  <div style="font-size:.78rem;color:#14b8a6;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;">Formerly AVI Systems · $576M · #1 AV Integrator in North America</div>
+  <p style="font-size:.85rem;color:#5a7090;line-height:1.75;margin-bottom:1.75rem;">FORTÉ (formerly AVI Systems) is the #1 AV integrator in North America — $576M revenue, 42 US locations, 1,500 employee-owners, deep Chicago F500 relationships. They transform rooms with screens. What they can't do is the physical branded environment surrounding the technology. That's Foxmark's opening — and it works three different ways.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;">
+
+    <!-- Route 1: Co-Sell -->
+    <div style="background:#0f1e2e;border:1px solid rgba(20,184,166,.15);border-top:3px solid #14b8a6;padding:1.25rem;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#14b8a6;margin-bottom:.5rem;">Route 1 · Co-Sell</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;color:#e8f0ff;margin-bottom:.6rem;">Mutual Referral</div>
+      <div style="font-size:.82rem;color:#5a7090;line-height:1.65;">FORTÉ walks into a Chicago F500 for AV. Client asks about the walls, floor, lobby graphics. FORTÉ refers Foxmark and expands their own scope. Foxmark does the same in reverse when environmental graphics clients need AV.</div>
     </div>
-    <div class="profile-card">
-      <div class="comp-name">Cima Network</div>
-      <div class="comp-tag">Inc. 5000 · National Programs · Chicago Area</div>
-      <div class="comp-detail">Turnkey national signage and environmental branding. Topgolf, Pep Boys, Regal Entertainment. Full capability: fabrication, lighting, digital integration, maintenance.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Local Chicago studio responsiveness, eco-certified interiors, faster local turnaround on mid-market programs.</div>
+
+    <!-- Route 2: Sub -->
+    <div style="background:#0f1e2e;border:1px solid rgba(20,184,166,.1);border-top:3px solid rgba(20,184,166,.4);padding:1.25rem;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#14b8a6;margin-bottom:.5rem;">Route 2 · Subcontract</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;color:#e8f0ff;margin-bottom:.6rem;">FORTÉ Subs Foxmark</div>
+      <div style="font-size:.82rem;color:#5a7090;line-height:1.65;">Client wants a complete space. FORTÉ owns the client relationship and subs Foxmark for the physical environment. Foxmark gets access to accounts — Chase, Walgreens, United — it would take years to build into cold.</div>
     </div>
-    <div class="profile-card">
-      <div class="comp-name">Parvin-Clauss</div>
-      <div class="comp-tag">Est. 1952 · Maywood IL · Exterior Signage</div>
-      <div class="comp-detail">70+ year Chicago institution. Design, fabrication, installation, maintenance nationwide. Exterior-dominant: channel letters, pylons, monuments, illuminated signage.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Interior environments capability, eco materials, branded environment design — all gaps in their model.</div>
+
+    <!-- Route 3: Compete -->
+    <div style="background:#0f1e2e;border:1px solid rgba(245,158,11,.1);border-top:3px solid rgba(245,158,11,.5);padding:1.25rem;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#f59e0b;margin-bottom:.5rem;">Route 3 · Compete</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;color:#e8f0ff;margin-bottom:.6rem;">Full-Environment Play</div>
+      <div style="font-size:.82rem;color:#5a7090;line-height:1.65;">When a client wants a complete branded environment and calls FORTÉ first, FORTÉ has to stop at the screen. Foxmark can deliver the full space — physical <em>and</em> digital layer — by partnering with a different AV integrator. Complete scope beats partial scope.</div>
     </div>
-    <div class="profile-card">
-      <div class="comp-name">Sharp Mill Graphics</div>
-      <div class="comp-tag">F500 Focus · Disability-Owned · Chicago</div>
-      <div class="comp-detail">Corporate signage, branded environments, promotional products. Certified disability-owned vendor — supplier diversity advantage with Fortune 500 procurement teams.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Larger format production, HQ scale, eco certification, full interior environment scope vs. their promotional/signage focus.</div>
+
+  </div>
+
+  <!-- What FORTÉ Can't Do -->
+  <div style="background:#0a1422;border:1px solid rgba(255,255,255,.06);padding:1.25rem 1.5rem;margin-bottom:1.25rem;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#3a5070;margin-bottom:.75rem;">What FORTÉ Can't Do · The Physical Environment Gap</div>
+    <div style="font-size:.82rem;color:#5a7090;line-height:1.7;">
+      FORTÉ installs a $250K video wall in a Walgreens regional HQ lobby.<br>
+      The lobby walls are bare. The floor has no brand. The conference rooms are white boxes.<br>
+      <span style="color:#b8c0d4;font-weight:600;">FORTÉ can't fix that. Foxmark can. That gap is Foxmark's opening on every FORTÉ install.</span>
     </div>
-    <div class="profile-card">
-      <div class="comp-name">Graphic Partners</div>
-      <div class="comp-tag">100+ Years · Commercial Print · Chicago</div>
-      <div class="comp-detail">Century-old commercial printer offering wide-format, eco-certified print, and direct mail. Chain-of-custody certified materials, low-VOC inks.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Installation capability, branded environment design, multi-site program management — all absent from their model.</div>
-    </div>
-    <div class="profile-card">
-      <div class="comp-name">Identiti</div>
-      <div class="comp-tag">National Rebranding · Program Management</div>
-      <div class="comp-detail">National retail rebranding and signage programs at scale. Strong program management, nationwide install network, exterior-dominant capability.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Local Chicago speed, interior environments, eco standard, direct studio access vs. their national-program-only model.</div>
-    </div>
-    <div class="profile-card">
-      <div class="comp-name">SpeedPro Chicago Loop</div>
-      <div class="comp-tag">Franchise · Top 10% Nationally · Loop</div>
-      <div class="comp-detail">Quick-turn large-format graphics. Ranked top 10% of SpeedPro franchise nationally. Validates 60–75% margin model on bundled services. Good at responsive local work.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> HQ scale, multi-site programs, eco certification, AI design — franchise model hard-caps their enterprise capability.</div>
-    </div>
-    <div class="profile-card">
-      <div class="comp-name">Nationals: Federal Heath · Jones Sign</div>
-      <div class="comp-tag">National Signage Programs · Not Chicago-Centric</div>
-      <div class="comp-detail">Large national sign and graphics programs for retail chains. Optimized for volume and standardized rollouts across hundreds of locations.</div>
-      <div class="comp-gap"><strong>Foxmark Edge:</strong> Local Chicago studio responsiveness, custom interior environments, eco materials, direct client relationships vs. their transactional national model.</div>
-    </div>
+  </div>
+
+  <div style="background:rgba(245,158,11,.04);border:1px solid rgba(245,158,11,.2);padding:.85rem 1.1rem;font-size:.82rem;color:#9096a8;line-height:1.6;">
+    <span style="color:#f59e0b;font-weight:600;">Bottom Line:</span> The goal isn't necessarily to make FORTÉ a partner. The goal is to get inside their accounts — by whatever route opens first. Co-sell if they're willing. Subcontract if they need help. Compete directly if the opportunity is there.
   </div>
 </section>
 
